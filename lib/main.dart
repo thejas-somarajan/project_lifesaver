@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // MaterialApp widget, which is the root of the Flutter application
     return MaterialApp(
-      home: MyHomePage(), // Setting the home page to MyHomePage()
+      home: MyLoginPage(), // Setting the home page to MyHomePage()
     );
   }
 }

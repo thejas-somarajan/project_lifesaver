@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/login_auth/firebase_auth/auth.dart';
+import 'package:life_saver/shared/loading.dart';
 
 // StatefulWidget for the RegistrationPage
 class RegistrationPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   // Variables to store email, password, and confirm password entered by the user
   String _emailReg = '';
   String _passwordReg = '';
+  bool loading = false;
 
   // Controllers for email, password, and confirm password text fields
   final TextEditingController _mailText = TextEditingController();
@@ -41,7 +43,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   // Build method to define the structure of the RegistrationPage
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       // Scaffold widget, a basic material design visual structure
       appBar: AppBar(
         // AppBar at the top of the screen with the title 'Register'
@@ -116,15 +118,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    _mailText.clear();
-                    _passText.clear();
-                    _passcText.clear();
+                    setState(() => loading = true);
+                    // _mailText.clear();
+                    // _passText.clear();
+                    // _passcText.clear();
                     // Calling the createUser method from the AuthService class
                     UserCredential? userCredential = await auth.createUser(_emailReg, _passwordReg, context);
 
                     // If userCredential is not null, sign-in was successful
                     if (userCredential != null) {
-                    // Navigate to the HomePage
+                      setState(() => loading = false);
+                      // Navigate to the HomePage
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => HomePage()),

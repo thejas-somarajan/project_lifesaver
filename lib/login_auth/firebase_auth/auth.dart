@@ -65,7 +65,7 @@ class AuthService {
       // Navigate to the login or home page after sign-out
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyHomePage()),
+        MaterialPageRoute(builder: (context) => MyLoginPage()),
       );
     } catch (e) {
       // Handle errors during sign-out

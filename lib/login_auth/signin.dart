@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/login_auth/firebase_auth/auth.dart';
+import 'package:life_saver/shared/loading.dart';
 
 // StatefulWidget for the SigninPage
 class SigninPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _SigninPageState extends State<SigninPage> {
   // Variables to store email and password entered by the user
   String _email = '';
   String _password = '';
+
+  bool loading = false;
 
   // Instance of the AuthService class for authentication
   final AuthService auth = AuthService();
@@ -41,7 +44,7 @@ class _SigninPageState extends State<SigninPage> {
   // Build method to define the structure of the SigninPage
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       // Scaffold widget, a basic material design visual structure
       appBar: AppBar(
         // AppBar at the top of the screen with the title 'Login'
@@ -96,12 +99,14 @@ class _SigninPageState extends State<SigninPage> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    _mailText.clear();
-                    _passText.clear();
+                    setState(() => loading = true);
+                    // _mailText.clear();
+                    // _passText.clear();
                     // Calling the signIn method from the AuthService class
                     UserCredential? userCredential = await auth.signIn(_email, _password, context);
                     // Checking if sign-in was successful
                     if (userCredential != null) {
+                      setState(() => loading = false);
                       // Navigating to the HomePage on successful sign-in
                       Navigator.pushReplacement(
                         context,
