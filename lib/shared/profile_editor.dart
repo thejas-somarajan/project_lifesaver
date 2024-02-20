@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:life_saver/Database/firestore.dart';
 import 'package:life_saver/Pages/profile.dart';
+import 'package:life_saver/shared/user_data.dart';
 
 
 class ProfileUpdate extends StatefulWidget {
@@ -8,6 +11,18 @@ class ProfileUpdate extends StatefulWidget {
 }
 
 class _ProfileUpdateState extends State<ProfileUpdate> {
+
+  Map profileData = {};
+
+  final GlobalKey<FormState> _profileformKey = GlobalKey<FormState>();
+
+
+  // void Userid_call() async {
+  //   userid = await UserData().getCurrentUserId();
+  //   ProfileService().updateUserData(userid, 'thejas', '12345', 'boss');
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,45 +68,236 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
           ),
           child: Padding(
             padding: EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                buildImage(),
-                SizedBox(height: 10.0),
-                Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: [
-                          buildTextField('Name'),
-                          SizedBox(height: 8.0),
-                          buildTextField('Phone No'),
-                          SizedBox(height: 8.0),
-                          buildTextField('Address'),
-                          SizedBox(height: 8.0),
-                          buildTextField('Urgent Contact'),
-                          SizedBox(height: 8.0),
-                          buildTextField('Height'),
-                          SizedBox(height: 8.0),
-                          buildTextField('Weight'),
-                          SizedBox(height: 8.0),
-                          buildTextField('Blood Group'),
-                        ],
-                      ),
-                    )
-                ),
-                SizedBox(height: 20.0),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.green),
+            child: Form(
+              key: _profileformKey,
+              child:Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  buildImage(),
+                  SizedBox(height: 10.0),
+                  Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                          child:Column(
+                            children: [
+                              Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: TextFormField(
+                              decoration: InputDecoration(
+                                isDense: true,
+                                filled: true,
+                                labelText: 'Name',
+                                labelStyle: TextStyle(fontSize: 12),
+                                border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  // You can add validation logic here if needed
+                                  if (value == null || value.isEmpty) {
+                                    return 'Name is required';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  // Update the profileData when the value changes
+                                  profileData['name'] = value;
+                                },
+                              ),
+                            ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Phone Number',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Phone Number is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['phone_no'] = value;
+                                  },
+                                ),
+                                ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Address',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Address is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['address'] = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Urgent Contact',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Urgent Contact is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['urg_contact'] = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Age',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Age is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['age'] = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Height',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Height is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['height'] = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Weight',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Weight is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['weight'] = value;
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 10.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    labelText: 'Blood Group',
+                                    labelStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    // You can add validation logic here if needed
+                                    if (value == null || value.isEmpty) {
+                                      return 'Blood Group is required';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    // Update the profileData when the value changes
+                                    profileData['blood'] = value;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                   ),
-                  onPressed: () {},
-                  child: Text(
-                    'Save Updates',
-                    style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                  SizedBox(height: 20.0),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                    ),
+                    onPressed: () {
+                      if (_profileformKey.currentState!.validate()) {
+                          _profileformKey.currentState!.save();
+                          //Userid_call();
+                          print(profileData);
+                          ProfileService().updateUserData(profileData);
+                        } else {
+                          // Handle sign-in failure (e.g., display error message)
+                          print( 'Sign-in failed. Please try again.');
+                        }
+                      },
+                    child: Text(
+                      'Save Updates',
+                      style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -113,23 +319,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
           color: Colors.black,
         ),
       ],
-    );
-  }
-
-
-
-  Widget buildTextField(String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: TextField(
-        decoration: InputDecoration(
-          isDense: true,
-          filled: true,
-          labelText: label,
-          labelStyle: TextStyle(fontSize: 12),
-          border: OutlineInputBorder(),
-        ),
-      ),
     );
   }
 

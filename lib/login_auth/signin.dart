@@ -45,8 +45,10 @@ class _SigninPageState extends State<SigninPage> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
+      backgroundColor: Colors.white,
       // Scaffold widget, a basic material design visual structure
       appBar: AppBar(
+        backgroundColor: Colors.green[400],
         // AppBar at the top of the screen with the title 'Login'
         title: const Text('Login'),
       ),
@@ -63,6 +65,16 @@ class _SigninPageState extends State<SigninPage> {
                 keyboardType: TextInputType.emailAddress,
                 controller: _mailText,
                 autocorrect: false,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  isDense: true,
+                  filled: true,
+                  labelStyle: TextStyle(
+                      fontSize: 12,
+                      color: Colors.green,
+                  ),
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Email is required.';
@@ -72,15 +84,23 @@ class _SigninPageState extends State<SigninPage> {
                   return null;
                 },
                 onSaved: (value) => _email = value!,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                ),
               ),
+              SizedBox(height: 15.0),
               // TextFormField for password input
               TextFormField(
                 key: Key('passwordField'),
                 controller: _passText,
                 obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  isDense: true,
+                  filled: true,
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    color: Colors.green,
+                  ),
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Password is required.';
@@ -90,10 +110,8 @@ class _SigninPageState extends State<SigninPage> {
                   return null;
                 },
                 onSaved: (value) => _password = value!,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                ),
               ),
+              SizedBox(height: 25.0),
               // ElevatedButton for the 'Sign In' action
               ElevatedButton(
                 onPressed: () async {
@@ -113,6 +131,7 @@ class _SigninPageState extends State<SigninPage> {
                         MaterialPageRoute(builder: (context) => HomePage()),
                       );
                     } else {
+                      setState(() => loading = false);
                       // Handle sign-in failure (e.g., display error message)
                       _showErrorSnackBar(context, 'Sign-in failed. Please try again.');
                     }

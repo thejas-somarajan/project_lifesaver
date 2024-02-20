@@ -73,4 +73,5 @@ class AuthService {
       _showErrorSnackBar(context, 'Error signing out. Please try again.');
     }
   }
+
 }

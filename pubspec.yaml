@@ -78,6 +78,10 @@ flutter:
     - lib/assets/ecg-machine.png
     - lib/assets/heart.png
     - lib/assets/watch.png
+    - lib/assets/1.png
+    - lib/assets/3.jpg
+    - lib/assets/4.jpg
+    - lib/assets/5.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

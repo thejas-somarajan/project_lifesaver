@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/login_auth/firebase_auth/auth.dart';
 import 'package:life_saver/shared/profile_editor.dart';
+import 'package:life_saver/shared/user_data.dart';
+
 
 class Profile extends StatefulWidget {
   @override
@@ -11,6 +14,13 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
   final AuthService _auth = AuthService();
+  String? userid = '';
+
+  void Userid_call() async {
+    userid = await UserData().getCurrentUserId();
+    print('User id is ${userid}');
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -53,6 +63,7 @@ class _ProfileState extends State<Profile> {
                                 context,
                                 MaterialPageRoute(builder: (context) => ProfileUpdate()),
                               );
+                              Userid_call();
                             },
                           ),
                         ],

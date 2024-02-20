@@ -1,5 +1,6 @@
 // Importing the necessary Flutter packages
 import 'package:flutter/material.dart';
+import 'package:life_saver/Pages/welcome.dart';
 import 'Pages/login.dart'; // Importing the login page
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart'; // Importing Firebase configuration options
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // MaterialApp widget, which is the root of the Flutter application
     return MaterialApp(
-      home: MyLoginPage(), // Setting the home page to MyHomePage()
+      home: WelcomePage(), // Setting the home page to MyHomePage()
     );
   }
 }

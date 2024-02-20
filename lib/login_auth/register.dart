@@ -134,7 +134,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         MaterialPageRoute(builder: (context) => HomePage()),
                       );
                     } else {
-                    // Handle other logic or show a message if needed
+                      setState(() => loading = false);
+                      // Handle other logic or show a message if needed
                       _showErrorSnackBar(context, 'Sign-in failed. Please try again.');
                       // (e.g., userCredential is null if sign-in failed)
                     }
