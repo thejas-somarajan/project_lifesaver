@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_saver/Pages/profile.dart';
 import 'vitals/vital_status.dart';
 
 class HomePage extends StatefulWidget {
@@ -181,6 +182,12 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => vitalsPage()),
+            );
+          }
+          else if (index == 2){
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Profile()),
             );
           }
         },
