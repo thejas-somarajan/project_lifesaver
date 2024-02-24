@@ -15,19 +15,75 @@ class _HomePageState extends State<HomePage> {
   DateTime now = DateTime.now();
   late StreamController<DateTime> _dateTimeController;
 
+  Map<int, List<double>> normal = {
+    1:[92.8, 97.2, 36.8, 102.3, 1.5],
+    2:[94.4, 98.3, 37.1, 103.5, 1.8],
+    3:[90.7, 95.8, 37.1, 101.6, 1.9],
+    4:[92.7, 98.8, 37.3, 103.9, 1.1],
+    5:[90.9, 99.9, 37.3, 103.2, 1.1],
+    6:[94.7, 97.7, 36.9, 100.3, 1.5],
+    7:[92.8, 95.5, 37.5, 101.3, 1.7],
+    8:[93.2, 95.2, 37.3, 104.1, 1.2],
+  };
+
+  late StreamController<List<double>> heartRateController;
+  late StreamController<List<double>> tempController;
+  late StreamController<List<double>> oxygenController;
+
+
+
+  late Timer timer;
+  int currentIndex = 1;
 
   @override
   void initState() {
     super.initState();
+
+
+
+    heartRateController = StreamController<List<double>>();
+    tempController = StreamController<List<double>>();
+    oxygenController = StreamController<List<double>>();
+
     _dateTimeController = StreamController<DateTime>.broadcast();
     _startClock();
+
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      // Simulate updating heart rate data every 2 seconds
+      updateRate(normal[currentIndex % normal.length + 1]!);
+      currentIndex++;
+    });
+  }
+
+  void updateRate(List<double> newRate) {
+    heartRateController.add(newRate);
+    tempController.add(newRate);
+    oxygenController.add(newRate);
   }
 
   @override
   void dispose() {
+    heartRateController.close();
+    timer.cancel();
+
     _dateTimeController.close();
+
     super.dispose();
   }
+
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _dateTimeController = StreamController<DateTime>.broadcast();
+  //   _startClock();
+  // }
+
+  // @override
+  // void dispose() {
+  //   _dateTimeController.close();
+  //   super.dispose();
+  // }
 
   void _startClock() {
     Timer.periodic(Duration(seconds: 1), (timer) {
@@ -214,27 +270,35 @@ class _HomePageState extends State<HomePage> {
                             height: 45.0, // Adjust height as needed
                           ),
                           const SizedBox(width: 12.0), // Add some space between the image and text
-                          const Row(
-                            children: [
-                              Text(
-                                'Heart rate',
-                                style: TextStyle(fontSize: 28.0,),
-                              ),
-                              SizedBox(width: 70,),
-                              Row(
-                                children: [
-                                  Text(
-                                    'XX',
-                                    style: TextStyle(fontSize: 30.0),
-                                  ),
-                                  SizedBox(width: 4,),
-                                  Text(
-                                    'BPM',
-                                    style: TextStyle(fontSize: 15.0),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          StreamBuilder<List<double>>(
+                            stream: heartRateController.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Row(
+                                  children: [
+                                    Text(
+                                      'Heart Rate',
+                                      style: TextStyle(fontSize: 25.0),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      snapshot.data![0].toStringAsFixed(2),
+                                      style: TextStyle(fontSize: 30.0),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      'BPM',
+                                      style: TextStyle(fontSize: 15.0),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Text(
+                                  'Loading...',
+                                  style: TextStyle(fontSize: 30.0),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -266,27 +330,35 @@ class _HomePageState extends State<HomePage> {
                             height: 45.0, // Adjust height as needed
                           ),
                           const SizedBox(width: 11.0), // Add some space between the image and text
-                          const Row(
-                            children: [
-                              Text(
-                                'Temperature',
-                                style: TextStyle(fontSize: 28.0,),
-                              ),
-                              SizedBox(width: 44,),
-                              Row(
-                                children: [
-                                  Text(
-                                    'XX',
-                                    style: TextStyle(fontSize: 30.0),
-                                  ),
-                                  SizedBox(width: 6,),
-                                  Text(
-                                    '°C',
-                                    style: TextStyle(fontSize: 18.0),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          StreamBuilder<List<double>>(
+                            stream: tempController.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Row(
+                                  children: [
+                                    Text(
+                                      'Temperature',
+                                      style: TextStyle(fontSize: 20.0),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      snapshot.data![2].toStringAsFixed(2),
+                                      style: TextStyle(fontSize: 30.0),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '°C',
+                                      style: TextStyle(fontSize: 15.0),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Text(
+                                  'Loading...',
+                                  style: TextStyle(fontSize: 30.0),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -317,27 +389,35 @@ class _HomePageState extends State<HomePage> {
                             height: 55.0, // Adjust height as needed
                           ),
                           const SizedBox(width: 10.0), // Add some space between the image and text
-                          const Row(
-                            children: [
-                              Text(
-                                'Oxygen',
-                                style: TextStyle(fontSize: 28.0,),
-                              ),
-                              SizedBox(width: 105,),
-                              Row(
-                                children: [
-                                  Text(
-                                    'XX',
-                                    style: TextStyle(fontSize: 30.0),
-                                  ),
-                                  SizedBox(width: 6,),
-                                  Text(
-                                    '%',
-                                    style: TextStyle(fontSize: 15.0),
-                                  ),
-                                ],
-                              ),
-                            ],
+                          StreamBuilder<List<double>>(
+                            stream: oxygenController.stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Row(
+                                  children: [
+                                    Text(
+                                      'Oxygen',
+                                      style: TextStyle(fontSize: 25.0),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      snapshot.data![1].toStringAsFixed(2),
+                                      style: TextStyle(fontSize: 30.0),
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '%',
+                                      style: TextStyle(fontSize: 15.0),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Text(
+                                  'Loading...',
+                                  style: TextStyle(fontSize: 30.0),
+                                );
+                              }
+                            },
                           ),
                         ],
                       ),

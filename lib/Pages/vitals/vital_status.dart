@@ -3,6 +3,8 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'chart.dart';
+import 'dart:async';
+
 
 
 
@@ -88,6 +90,49 @@ class _vitalsPageState extends State<vitalsPage> {
     7:[92.8, 95.5, 37.5, 101.3, 1.7],
     8:[93.2, 95.2, 37.3, 104.1, 1.2],
   };
+
+  late StreamController<List<double>> heartRateController;
+  late StreamController<List<double>> tempController;
+  late StreamController<List<double>> oxygenController;
+  late StreamController<List<double>> bloodController;
+  late StreamController<List<double>> edaController;
+
+
+
+  late Timer timer;
+  int currentIndex = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    heartRateController = StreamController<List<double>>();
+    tempController = StreamController<List<double>>();
+    oxygenController = StreamController<List<double>>();
+    bloodController = StreamController<List<double>>();
+    edaController = StreamController<List<double>>();
+
+
+    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      // Simulate updating heart rate data every 2 seconds
+      updateRate(normal[currentIndex % normal.length + 1]!);
+      currentIndex++;
+    });
+  }
+
+  void updateRate(List<double> newRate) {
+    heartRateController.add(newRate);
+    tempController.add(newRate);
+    oxygenController.add(newRate);
+    bloodController.add(newRate);
+    edaController.add(newRate);
+  }
+
+  @override
+  void dispose() {
+    heartRateController.close();
+    timer.cancel();
+    super.dispose();
+  }
 
 
   @override
@@ -186,27 +231,35 @@ class _vitalsPageState extends State<vitalsPage> {
                           height: 45.0,
                         ),
                         const SizedBox(width: 12.0),
-                        Row(
-                          children: [
-                          Text(
-                            'Heart Rate',
-                            style: TextStyle(fontSize: 20.0),
-                          ),
-                          SizedBox(width: 70),
-                          Row(
-                            children: [
-                              Text(
-                              'XX',
-                              style: TextStyle(fontSize: 25.0),
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                              'BPM',
-                              style: TextStyle(fontSize: 15.0),
-                              ),
-                            ],
-                          ),
-                          ],
+                        StreamBuilder<List<double>>(
+                          stream: heartRateController.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    'Heart Rate',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    snapshot.data![0].toStringAsFixed(2),
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    'BPM',
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Text(
+                                'Loading...',
+                                style: TextStyle(fontSize: 30.0),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -238,27 +291,35 @@ class _vitalsPageState extends State<vitalsPage> {
                           height: 45.0,
                         ),
                         const SizedBox(width: 12.0),
-                        Row(
-                          children: [
-                            Text(
-                              'Temperature',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                            SizedBox(width: 70),
-                            Row(
-                              children: [
-                                Text(
-                                  'XX',
-                                  style: TextStyle(fontSize: 25.0),
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  '°C',
-                                  style: TextStyle(fontSize: 15.0),
-                                ),
-                              ],
-                            ),
-                          ],
+                        StreamBuilder<List<double>>(
+                          stream: tempController.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    'Temperature',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    snapshot.data![2].toStringAsFixed(2),
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '°C',
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Text(
+                                'Loading...',
+                                style: TextStyle(fontSize: 30.0),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -290,27 +351,35 @@ class _vitalsPageState extends State<vitalsPage> {
                           height: 45.0,
                         ),
                         const SizedBox(width: 12.0),
-                        Row(
-                          children: [
-                            Text(
-                              'Oxygen',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                            SizedBox(width: 70),
-                            Row(
-                              children: [
-                                Text(
-                                  'XX',
-                                  style: TextStyle(fontSize: 25.0),
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  '%',
-                                  style: TextStyle(fontSize: 15.0),
-                                ),
-                              ],
-                            ),
-                          ],
+                        StreamBuilder<List<double>>(
+                          stream: oxygenController.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    'Oxygen',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    snapshot.data![1].toStringAsFixed(2),
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '%',
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Text(
+                                'Loading...',
+                                style: TextStyle(fontSize: 30.0),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -342,27 +411,35 @@ class _vitalsPageState extends State<vitalsPage> {
                           height: 45.0,
                         ),
                         const SizedBox(width: 12.0),
-                        Row(
-                          children: [
-                            Text(
-                              'Blood Pressure',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                            SizedBox(width: 70),
-                            Row(
-                              children: [
-                                Text(
-                                  'XX',
-                                  style: TextStyle(fontSize: 25.0),
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  '%',
-                                  style: TextStyle(fontSize: 15.0),
-                                ),
-                              ],
-                            ),
-                          ],
+                        StreamBuilder<List<double>>(
+                          stream: bloodController.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    'Blood ',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    snapshot.data![3].toStringAsFixed(2),
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '%',
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Text(
+                                'Loading...',
+                                style: TextStyle(fontSize: 30.0),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -394,27 +471,35 @@ class _vitalsPageState extends State<vitalsPage> {
                           height: 45.0,
                         ),
                         const SizedBox(width: 12.0),
-                        Row(
-                          children: [
-                            Text(
-                              'EDA',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                            SizedBox(width: 70),
-                            Row(
-                              children: [
-                                Text(
-                                  'XX',
-                                  style: TextStyle(fontSize: 25.0),
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  '%',
-                                  style: TextStyle(fontSize: 15.0),
-                                ),
-                              ],
-                            ),
-                          ],
+                        StreamBuilder<List<double>>(
+                          stream: edaController.stream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Row(
+                                children: [
+                                  Text(
+                                    'EDA',
+                                    style: TextStyle(fontSize: 25.0),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    snapshot.data![4].toStringAsFixed(2),
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '%',
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Text(
+                                'Loading...',
+                                style: TextStyle(fontSize: 30.0),
+                              );
+                            }
+                          },
                         ),
                       ],
                     ),
