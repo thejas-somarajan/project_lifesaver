@@ -12,7 +12,7 @@ class ProfileUpdate extends StatefulWidget {
 
 class _ProfileUpdateState extends State<ProfileUpdate> {
 
-  Map profileData = {};
+  Map<String,dynamic> profileData = {};
 
   final GlobalKey<FormState> _profileformKey = GlobalKey<FormState>();
 
@@ -42,7 +42,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Profile()),
+              MaterialPageRoute(builder: (context) => Profile(selectedIndex: 2)),
             );
           },
         ),

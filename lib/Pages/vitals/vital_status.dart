@@ -1,39 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:life_saver/Pages/home.dart';
+import 'package:life_saver/shared/navigator.dart';
 import 'chart.dart';
 
 
 
-void main() {
-  runApp(vitals());
-}
+// void main() {
+//   runApp(vitals());
+// }
 
-class vitals extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'vital page',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: vitalsPage(),
-    );
-  }
-}
+// class vitals extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'vital page',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
+//       ),
+//       home: vitalsPage(selectedIndex: 0),
+//     );
+//   }
+// }
 
 class vitalsPage extends StatefulWidget {
+  final int selectedIndex;
+  vitalsPage({Key? key, required this.selectedIndex}) : super(key: key);
+
   @override
-  _vitalsPageState createState() => _vitalsPageState();
+  _vitalsPageState createState() => _vitalsPageState(selectedIndex);
 }
 
 class _vitalsPageState extends State<vitalsPage> {
-  int _selectedIndex = 0;
+
+  int _selectedIndex;
+
+  _vitalsPageState(this._selectedIndex);
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    Navi().navigate(index, context);
   }
   final List<BarChartModel> data = [
     BarChartModel(
@@ -110,7 +115,7 @@ class _vitalsPageState extends State<vitalsPage> {
           ),
         ],
         leading: IconButton(
-          icon: const Icon(Icons.keyboard_return),
+          icon: const Icon(Icons.home),
           color: Colors.white,
           onPressed: () {
             // Navigate back to the home page
@@ -146,7 +151,7 @@ class _vitalsPageState extends State<vitalsPage> {
                 buildVitalContainer('Temperature', '°C', 'high-temperature.png'),
                 buildVitalContainer('Oxygen', '%', 'oxygen.png'),
                 buildVitalContainer('Blood Pressure', '%', 'blood-pressure.png'),
-                buildVitalContainer('ECG', '%', 'ecg-machine.png'),
+                buildVitalContainer('EDA', '%', 'ecg-machine.png'),
               ],
             ),
           ),
@@ -270,8 +275,8 @@ class _vitalsPageState extends State<vitalsPage> {
       child: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.report, color: _selectedIndex == 0 ? Colors.green[500] : Colors.grey),
-            label: 'Report',
+            icon: Icon(Icons.message, color: _selectedIndex == 0 ? Colors.green[500] : Colors.grey),
+            label: 'Tips',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info, color: _selectedIndex == 1 ? Colors.green[500] : Colors.grey),
@@ -284,7 +289,7 @@ class _vitalsPageState extends State<vitalsPage> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.green[500],
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.grey[500],
         onTap: _onItemTapped,
       ),
     );

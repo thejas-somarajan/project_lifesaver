@@ -17,30 +17,39 @@ class WelcomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Text(
-                  'Welcome User,',
-                  style: TextStyle(color: Colors.white, fontSize: 30),
+              FadeUpAnimation(
+                delay: 0,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                  child: Text(
+                    'Welcome User,',
+                    style: TextStyle(color: Colors.white, fontSize: 30),
+                  ),
                 ),
               ),
               SizedBox(
                 height: 560,
-                child: CardCarousel(),
+                child: FadeUpAnimation(
+                  delay: 0.5,
+                  child: CardCarousel(),
+                ),
               ),
-              TextButton(
-                onPressed: () {
-                  print('Button pressed!');
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MyLoginPage()),
-                  );
-                  // Add actions for the button here
-                },
-                child: Text(
-                  'Skip',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
+              FadeUpAnimation(
+                delay: 1,
+                child: TextButton(
+                  onPressed: () {
+                    print('Button pressed!');
+                    Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MyLoginPage()),
+                    );
+                    // Add actions for the button here
+                  },
+                  child: Text(
+                    'Skip',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -51,6 +60,66 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+class FadeUpAnimation extends StatefulWidget {
+  final double delay;
+  final Widget child;
+
+  FadeUpAnimation({required this.delay, required this.child});
+
+  @override
+  _FadeUpAnimationState createState() => _FadeUpAnimationState();
+}
+
+class _FadeUpAnimationState extends State<FadeUpAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 2000),
+    );
+    final delayDuration = Duration(milliseconds: (widget.delay * 1000).round());
+    Future.delayed(delayDuration, () {
+      _controller.forward();
+    });
+    _animation = Tween<double>(begin: -30.0, end: 0.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0.0, _animation.value),
+          child: Opacity(
+            opacity: _controller.value,
+            child: child,
+          ),
+        );
+      },
+      child: widget.child,
+    );
+  }
+}
+
 
 class CardCarousel extends StatefulWidget {
   @override
