@@ -3,6 +3,8 @@ import 'package:life_saver/Pages/profile.dart';
 import 'package:life_saver/Pages/tips.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'vitals/vital_status.dart';
+import 'dart:async';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,10 +12,69 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DateTime now = DateTime.now();
+  late StreamController<DateTime> _dateTimeController;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _dateTimeController = StreamController<DateTime>.broadcast();
+    _startClock();
+  }
+
+  @override
+  void dispose() {
+    _dateTimeController.close();
+    super.dispose();
+  }
+
+  void _startClock() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      now = DateTime.now();
+      _dateTimeController.add(now);
+    });
+  }
+  //
+  // String getCurrentTime() {
+  //   String formattedTime = "${now.hour}:${now.minute}";
+  //   return formattedTime;
+  // }
+
+  String AMPM(String formattedTime) {
+    if(now.hour < 12)
+    {
+      formattedTime = formattedTime + " AM";
+    }
+    else
+    {
+      formattedTime = formattedTime + " PM";
+    }
+    return formattedTime;
+  }
+
+  String Month(String formattedDate) {
+    switch(now.month) {
+      case 1: return "Jan " + formattedDate;
+      case 2: return ("Feb " + formattedDate);
+      case 3: return ("Mar " + formattedDate);
+      case 4: return ("April " + formattedDate);
+      case 5: return ("May " + formattedDate);
+      case 6: return ("June " + formattedDate);
+      case 7: return ("July " + formattedDate);
+      case 8: return ("Aug " + formattedDate);
+      case 9: return ("Sept " + formattedDate);
+      case 10: return ("Oct " + formattedDate);
+      case 11: return ("Nov " + formattedDate);
+      case 12: return ("Dec " + formattedDate);
+      default: return "Jan";
+    }
+  }
 
   void _onItemTapped(int index) {
     Navi().navigate(index, context);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,15 +145,33 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
 
-                Text(
-                  '10:00 PM',
-                  style: TextStyle(fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Sunday, February 4',
-                  style: TextStyle(fontSize: 19.0,fontWeight: FontWeight.bold),
+                StreamBuilder<DateTime>(
+                stream: _dateTimeController.stream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      DateTime currentTime = snapshot.data!;
+                      String formattedTime =
+                          "${currentTime.hour}:${currentTime.minute}";
+                      String dateMonth = "${currentTime.day} ${currentTime.year}";
+                      dateMonth = Month(dateMonth);
+                      formattedTime = AMPM(formattedTime);
+                      return Row(
+                        children: [
+                          Text(
+                            formattedTime,
+                            style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(width: 60.0),
+                          Text(
+                            dateMonth,
+                            style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Text('Loading...'); // Initial loading state
+                    }
+                  },
                 ),
               ],
             ),

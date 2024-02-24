@@ -78,6 +78,18 @@ class _vitalsPageState extends State<vitalsPage> {
     ),
   ];
 
+  Map<int, List<double>> normal = {
+    1:[92.8, 97.2, 36.8, 102.3, 1.5],
+    2:[94.4, 98.3, 37.1, 103.5, 1.8],
+    3:[90.7, 95.8, 37.1, 101.6, 1.9],
+    4:[92.7, 98.8, 37.3, 103.9, 1.1],
+    5:[90.9, 99.9, 37.3, 103.2, 1.1],
+    6:[94.7, 97.7, 36.9, 100.3, 1.5],
+    7:[92.8, 95.5, 37.5, 101.3, 1.7],
+    8:[93.2, 95.2, 37.3, 104.1, 1.2],
+  };
+
+
   @override
   Widget build(BuildContext context) {
     List<charts.Series<BarChartModel, String>> series = [
@@ -147,11 +159,267 @@ class _vitalsPageState extends State<vitalsPage> {
             scrollDirection: Axis.vertical, // Vertical scrolling
             child: Column(
               children: [
-                buildVitalContainer('Heart Rate', 'BPM', 'heart-attack.png'),
-                buildVitalContainer('Temperature', '°C', 'high-temperature.png'),
-                buildVitalContainer('Oxygen', '%', 'oxygen.png'),
-                buildVitalContainer('Blood Pressure', '%', 'blood-pressure.png'),
-                buildVitalContainer('EDA', '%', 'ecg-machine.png'),
+
+              Container(
+                height: 95,
+                margin: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                  color: Colors.white,
+                ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10.0),
+                        Image.asset(
+                          'lib/assets/heart-attack.png',
+                          width: 45.0,
+                          height: 45.0,
+                        ),
+                        const SizedBox(width: 12.0),
+                        Row(
+                          children: [
+                          Text(
+                            'Heart Rate',
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          SizedBox(width: 70),
+                          Row(
+                            children: [
+                              Text(
+                              'XX',
+                              style: TextStyle(fontSize: 25.0),
+                              ),
+                              SizedBox(width: 4),
+                              Text(
+                              'BPM',
+                              style: TextStyle(fontSize: 15.0),
+                              ),
+                            ],
+                          ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 95,
+                  margin: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10.0),
+                        Image.asset(
+                          'lib/assets/high-temperature.png',
+                          width: 45.0,
+                          height: 45.0,
+                        ),
+                        const SizedBox(width: 12.0),
+                        Row(
+                          children: [
+                            Text(
+                              'Temperature',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(width: 70),
+                            Row(
+                              children: [
+                                Text(
+                                  'XX',
+                                  style: TextStyle(fontSize: 25.0),
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  '°C',
+                                  style: TextStyle(fontSize: 15.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 95,
+                  margin: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10.0),
+                        Image.asset(
+                          'lib/assets/oxygen.png',
+                          width: 45.0,
+                          height: 45.0,
+                        ),
+                        const SizedBox(width: 12.0),
+                        Row(
+                          children: [
+                            Text(
+                              'Oxygen',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(width: 70),
+                            Row(
+                              children: [
+                                Text(
+                                  'XX',
+                                  style: TextStyle(fontSize: 25.0),
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  '%',
+                                  style: TextStyle(fontSize: 15.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 95,
+                  margin: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10.0),
+                        Image.asset(
+                          'lib/assets/blood-pressure.png',
+                          width: 45.0,
+                          height: 45.0,
+                        ),
+                        const SizedBox(width: 12.0),
+                        Row(
+                          children: [
+                            Text(
+                              'Blood Pressure',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(width: 70),
+                            Row(
+                              children: [
+                                Text(
+                                  'XX',
+                                  style: TextStyle(fontSize: 25.0),
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  '%',
+                                  style: TextStyle(fontSize: 15.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 95,
+                  margin: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10.0),
+                        Image.asset(
+                          'lib/assets/ecg-machine.png',
+                          width: 45.0,
+                          height: 45.0,
+                        ),
+                        const SizedBox(width: 12.0),
+                        Row(
+                          children: [
+                            Text(
+                              'EDA',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                            SizedBox(width: 70),
+                            Row(
+                              children: [
+                                Text(
+                                  'XX',
+                                  style: TextStyle(fontSize: 25.0),
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  '%',
+                                  style: TextStyle(fontSize: 15.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -214,60 +482,60 @@ class _vitalsPageState extends State<vitalsPage> {
     );
   }
 
-  Widget buildVitalContainer(String title, String unit, String imagePath) {
-    return Container(
-      height: 95,
-      margin: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-        color: Colors.white,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Row(
-          children: [
-            const SizedBox(width: 10.0),
-            Image.asset(
-              'lib/assets/$imagePath',
-              width: 45.0,
-              height: 45.0,
-            ),
-            const SizedBox(width: 12.0),
-            Row(
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                SizedBox(width: 70),
-                Row(
-                  children: [
-                    Text(
-                      'XX',
-                      style: TextStyle(fontSize: 25.0),
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      unit,
-                      style: TextStyle(fontSize: 15.0),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget buildVitalContainer(String title, String unit, String imagePath) {
+  //   return Container(
+  //     height: 95,
+  //     margin: const EdgeInsets.all(15),
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(15),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.5),
+  //           spreadRadius: 2,
+  //           blurRadius: 10,
+  //           offset: const Offset(0, 3),
+  //         ),
+  //       ],
+  //       color: Colors.white,
+  //     ),
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(4.0),
+  //       child: Row(
+  //         children: [
+  //           const SizedBox(width: 10.0),
+  //           Image.asset(
+  //             'lib/assets/$imagePath',
+  //             width: 45.0,
+  //             height: 45.0,
+  //           ),
+  //           const SizedBox(width: 12.0),
+  //           Row(
+  //             children: [
+  //               Text(
+  //                 title,
+  //                 style: TextStyle(fontSize: 20.0),
+  //               ),
+  //               SizedBox(width: 70),
+  //               Row(
+  //                 children: [
+  //                   Text(
+  //                     'XX',
+  //                     style: TextStyle(fontSize: 25.0),
+  //                   ),
+  //                   SizedBox(width: 4),
+  //                   Text(
+  //                     unit,
+  //                     style: TextStyle(fontSize: 15.0),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   PreferredSizeWidget buildBottomNavigationBar() {
     return PreferredSize(
