@@ -33,6 +33,8 @@ class _FeatureState extends State<Feature> {
   DateTime? lastGeneratedDate;
   final storage = FlutterSecureStorage();
 
+  Color _iconColor = Colors.white;
+
   void _onItemTapped(int index) {
     Navi().navigate(index, context);
   }
@@ -42,6 +44,26 @@ class _FeatureState extends State<Feature> {
     super.initState();
     _loadLastGeneratedDate();
   }
+
+  // Function to handle button click
+  void _handleButtonClick() {
+    // Update the color to a different color
+    if(_iconColor == Colors.white) {
+      setState(() {
+        _iconColor = Colors.blue; // Change color to red when clicked
+      });
+    } else {
+      setState(() {
+        _iconColor = Colors.white; // Change color to red when clicked
+      });
+    }
+  }
+
+  // _onButtonPressed(keys) {
+  //   if(keys == 'like') {
+  //
+  //   }
+  // }
 
   Future<void> _loadLastGeneratedDate() async {
     String? storedDate = await storage.read(key: 'lastGeneratedDate');
@@ -84,7 +106,7 @@ class _FeatureState extends State<Feature> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                  icon: const Icon(Icons.home),
+                  icon: const Icon(Icons.keyboard_return_rounded),
                   color: Colors.white,
                   onPressed: () {
                     // Navigate back to the home page
@@ -149,9 +171,11 @@ class _FeatureState extends State<Feature> {
                             ),
                             SizedBox(width: 16),
                             IconButton(
-                              onPressed: () => _onButtonPressed('like'),
+                              onPressed: () {
+                                _handleButtonClick();
+                              },
                               icon: Icon(Icons.thumb_up),
-                              color: Colors.white,
+                              color: _iconColor,
                             ),
                           ],
                         ),
@@ -179,10 +203,10 @@ class _FeatureState extends State<Feature> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.message, color: _selectedIndex == 0 ? Colors.blue : Colors.white),
-            label: 'Report',
+            label: 'Tips',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info, color: _selectedIndex == 1 ? Colors.blue : Colors.white),
+            icon: Icon(Icons.info, color: _selectedIndex == 1 ? Colors.yellowAccent : Colors.white),
             label: 'Vitals',
           ),
           BottomNavigationBarItem(

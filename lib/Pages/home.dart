@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:life_saver/Pages/critical.dart';
 import 'package:life_saver/Pages/profile.dart';
 import 'package:life_saver/Pages/tips.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'vitals/vital_status.dart';
 import 'dart:async';
+
+import 'package:life_saver/ml_implementation/ml_file.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -16,21 +19,23 @@ class _HomePageState extends State<HomePage> {
   late StreamController<DateTime> _dateTimeController;
 
   Map<int, List<double>> normal = {
-    1:[92.8, 97.2, 36.8, 102.3, 1.5],
-    2:[94.4, 98.3, 37.1, 103.5, 1.8],
-    3:[90.7, 95.8, 37.1, 101.6, 1.9],
-    4:[92.7, 98.8, 37.3, 103.9, 1.1],
-    5:[90.9, 99.9, 37.3, 103.2, 1.1],
-    6:[94.7, 97.7, 36.9, 100.3, 1.5],
-    7:[92.8, 95.5, 37.5, 101.3, 1.7],
-    8:[93.2, 95.2, 37.3, 104.1, 1.2],
+    1: [0.33, 84.44, 36.84, 99.8],
+    2: [0.44, 83.17, 36.67, 98.6],
+    3: [0.51,	82.76,	37.32, 95.6],
+    4: [0.61,	83.02,	36.33, 96.3],
+    5: [0.7,	78.67,	36.08, 97.1],
+    6: [1.28,	75.83,	36.21, 95.2],
+    7: [1.29,	75.55,	36.01, 93.8],
+    8: [1.35,	75.57,	36.25, 96.7],
+    9: [5.36, 133.53,	36.04, 85.67],
+    10:[9.39, 121.74,	36.82, 87.69],
   };
 
   late StreamController<List<double>> heartRateController;
   late StreamController<List<double>> tempController;
   late StreamController<List<double>> oxygenController;
 
-
+  late StreamController<int> traverseController;
 
   late Timer timer;
   int currentIndex = 1;
@@ -39,17 +44,19 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-
-
     heartRateController = StreamController<List<double>>();
     tempController = StreamController<List<double>>();
     oxygenController = StreamController<List<double>>();
 
+    traverseController = StreamController<int>();
+
+
     _dateTimeController = StreamController<DateTime>.broadcast();
     _startClock();
 
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) {
       // Simulate updating heart rate data every 2 seconds
+      print(currentIndex);
       updateRate(normal[currentIndex % normal.length + 1]!);
       currentIndex++;
     });
@@ -59,18 +66,21 @@ class _HomePageState extends State<HomePage> {
     heartRateController.add(newRate);
     tempController.add(newRate);
     oxygenController.add(newRate);
+
+    critical_traverse(newRate);
   }
 
   @override
   void dispose() {
     heartRateController.close();
+    tempController.close();
+    oxygenController.close();
+
     timer.cancel();
 
     _dateTimeController.close();
-
     super.dispose();
   }
-
 
   // @override
   // void initState() {
@@ -85,6 +95,43 @@ class _HomePageState extends State<HomePage> {
   //   super.dispose();
   // }
 
+
+  void critical_traverse(List<double> newRate) async{
+    // final Stream<String> traverse = traverseController.stream;
+    int data = await processData(newRate);
+    print(data);
+
+    // Subscribe to the stream
+    // final StreamSubscription<String> subscription =
+    // traverse.listen((int data) {
+    //     if(data == 0)
+    //       {
+    //         Navigator.push(
+    //           context,
+    //           MaterialPageRoute(
+    //               builder: (context) => Critical_interface()),
+    //         );
+    //       }
+    // });
+
+    if(data == 0)
+          {
+            dispose();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Critical_interface()),
+            );
+          }
+    else
+      {
+        print('brooks was here');
+      }
+
+
+  }
+
+
   void _startClock() {
     Timer.periodic(Duration(seconds: 1), (timer) {
       now = DateTime.now();
@@ -98,32 +145,42 @@ class _HomePageState extends State<HomePage> {
   // }
 
   String AMPM(String formattedTime) {
-    if(now.hour < 12)
-    {
+    if (now.hour < 12) {
       formattedTime = formattedTime + " AM";
-    }
-    else
-    {
+    } else {
       formattedTime = formattedTime + " PM";
     }
     return formattedTime;
   }
 
   String Month(String formattedDate) {
-    switch(now.month) {
-      case 1: return "Jan " + formattedDate;
-      case 2: return ("Feb " + formattedDate);
-      case 3: return ("Mar " + formattedDate);
-      case 4: return ("April " + formattedDate);
-      case 5: return ("May " + formattedDate);
-      case 6: return ("June " + formattedDate);
-      case 7: return ("July " + formattedDate);
-      case 8: return ("Aug " + formattedDate);
-      case 9: return ("Sept " + formattedDate);
-      case 10: return ("Oct " + formattedDate);
-      case 11: return ("Nov " + formattedDate);
-      case 12: return ("Dec " + formattedDate);
-      default: return "Jan";
+    switch (now.month) {
+      case 1:
+        return "Jan " + formattedDate;
+      case 2:
+        return ("Feb " + formattedDate);
+      case 3:
+        return ("Mar " + formattedDate);
+      case 4:
+        return ("April " + formattedDate);
+      case 5:
+        return ("May " + formattedDate);
+      case 6:
+        return ("June " + formattedDate);
+      case 7:
+        return ("July " + formattedDate);
+      case 8:
+        return ("Aug " + formattedDate);
+      case 9:
+        return ("Sept " + formattedDate);
+      case 10:
+        return ("Oct " + formattedDate);
+      case 11:
+        return ("Nov " + formattedDate);
+      case 12:
+        return ("Dec " + formattedDate);
+      default:
+        return "Jan";
     }
   }
 
@@ -131,12 +188,11 @@ class _HomePageState extends State<HomePage> {
     Navi().navigate(index, context);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children :[
+        children: [
           Container(
             height: 200, // Height of your custom app bar
             decoration: BoxDecoration(
@@ -145,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                 bottomLeft: Radius.circular(30),
               ),
             ),
-            padding: EdgeInsets.fromLTRB(5, 5, 10,5),
+            padding: EdgeInsets.fromLTRB(5, 5, 10, 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -168,7 +224,9 @@ class _HomePageState extends State<HomePage> {
                           'connected',
                           style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
-                        SizedBox(height: 4,),
+                        SizedBox(
+                          height: 4,
+                        ),
                         Icon(
                           Icons.battery_0_bar_outlined,
                           color: Colors.white,
@@ -192,35 +250,33 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-
             padding: EdgeInsets.fromLTRB(24, 28, 24, 20),
-
             child: Row(
-
-
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-
                 StreamBuilder<DateTime>(
-                stream: _dateTimeController.stream,
+                  stream: _dateTimeController.stream,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       DateTime currentTime = snapshot.data!;
                       String formattedTime =
                           "${currentTime.hour}:${currentTime.minute}";
-                      String dateMonth = "${currentTime.day} ${currentTime.year}";
+                      String dateMonth =
+                          "${currentTime.day} ${currentTime.year}";
                       dateMonth = Month(dateMonth);
                       formattedTime = AMPM(formattedTime);
                       return Row(
                         children: [
                           Text(
                             formattedTime,
-                            style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 26.0, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 60.0),
+                          SizedBox(width: 20.0),
                           Text(
                             dateMonth,
-                            style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 26.0, fontWeight: FontWeight.bold),
                           ),
                         ],
                       );
@@ -228,6 +284,17 @@ class _HomePageState extends State<HomePage> {
                       return Text('Loading...'); // Initial loading state
                     }
                   },
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Critical_interface()),
+                    );
+                  },
+                  icon: Icon(Icons.add), // Wrap Icons.add with Icon widget
+                  label: Text(''), // Wrap 'h' with Text widget
                 ),
               ],
             ),
@@ -239,12 +306,8 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: 1),
               scrollDirection: Axis.vertical, // Vertical scrolling
               child: Column(
-
-
                 children: [
-
                   Container(
-
                     height: 95, // Adjust height as needed
                     margin: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
@@ -269,7 +332,9 @@ class _HomePageState extends State<HomePage> {
                             width: 45.0, // Adjust width as needed
                             height: 45.0, // Adjust height as needed
                           ),
-                          const SizedBox(width: 12.0), // Add some space between the image and text
+                          const SizedBox(
+                              width:
+                                  12.0), // Add some space between the image and text
                           StreamBuilder<List<double>>(
                             stream: heartRateController.stream,
                             builder: (context, snapshot) {
@@ -280,9 +345,9 @@ class _HomePageState extends State<HomePage> {
                                       'Heart Rate',
                                       style: TextStyle(fontSize: 25.0),
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 50),
                                     Text(
-                                      snapshot.data![0].toStringAsFixed(2),
+                                      snapshot.data![1].toStringAsFixed(2),
                                       style: TextStyle(fontSize: 30.0),
                                     ),
                                     SizedBox(width: 4),
@@ -329,7 +394,9 @@ class _HomePageState extends State<HomePage> {
                             width: 45.0, // Adjust width as needed
                             height: 45.0, // Adjust height as needed
                           ),
-                          const SizedBox(width: 11.0), // Add some space between the image and text
+                          const SizedBox(
+                              width:
+                                  11.0), // Add some space between the image and text
                           StreamBuilder<List<double>>(
                             stream: tempController.stream,
                             builder: (context, snapshot) {
@@ -340,7 +407,7 @@ class _HomePageState extends State<HomePage> {
                                       'Temperature',
                                       style: TextStyle(fontSize: 20.0),
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 50),
                                     Text(
                                       snapshot.data![2].toStringAsFixed(2),
                                       style: TextStyle(fontSize: 30.0),
@@ -363,7 +430,8 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                  ),Container(
+                  ),
+                  Container(
                     height: 95, // Adjust height as needed
                     margin: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
@@ -388,7 +456,9 @@ class _HomePageState extends State<HomePage> {
                             width: 55.0, // Adjust width as needed
                             height: 55.0, // Adjust height as needed
                           ),
-                          const SizedBox(width: 10.0), // Add some space between the image and text
+                          const SizedBox(
+                              width:
+                                  10.0), // Add some space between the image and text
                           StreamBuilder<List<double>>(
                             stream: oxygenController.stream,
                             builder: (context, snapshot) {
@@ -399,9 +469,9 @@ class _HomePageState extends State<HomePage> {
                                       'Oxygen',
                                       style: TextStyle(fontSize: 25.0),
                                     ),
-                                    SizedBox(width: 10),
+                                    SizedBox(width: 80),
                                     Text(
-                                      snapshot.data![1].toStringAsFixed(2),
+                                      snapshot.data![3].toStringAsFixed(2),
                                       style: TextStyle(fontSize: 30.0),
                                     ),
                                     SizedBox(width: 4),
@@ -423,56 +493,53 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
           ),
         ],
       ),
-
-
       bottomNavigationBar: PreferredSize(
-
         preferredSize: const Size.fromHeight(70),
-
         child: BottomNavigationBar(
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.message, color:
-                //selectedIndex == 0 ?
-                Colors.green[500],
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+                color:
+                    //selectedIndex == 0 ?
+                    Colors.green[500],
+                // : Colors.grey
+              ), // Set color conditionally
+              label: 'Tips',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info,
+                  color:
+                      // _selectedIndex == 1 ?
+                      Colors.green[500]
                   // : Colors.grey
-                ), // Set color conditionally
-                label: 'Tips',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.info, color:
-                // _selectedIndex == 1 ?
-                Colors.green[500]
-                  // : Colors.grey
-                ), // Set color conditionally
-                label: 'Vitals',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person, color:
-                //  _selectedIndex == 2 ?
-                Colors.green[500],
-                  // : Colors.grey
-                ), // Set color conditionally
-                label: 'Profile',
-              ),
-            ],
-            //  currentIndex: _selectedIndex,
-            selectedItemColor: Colors.green[500], // Set the color for the selected item
-            unselectedItemColor: Colors.grey,
-            onTap: _onItemTapped,
-          ),
-          ),
-
-          );
-          }
+                  ), // Set color conditionally
+              label: 'Vitals',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                color:
+                    //  _selectedIndex == 2 ?
+                    Colors.green[500],
+                // : Colors.grey
+              ), // Set color conditionally
+              label: 'Profile',
+            ),
+          ],
+          //  currentIndex: _selectedIndex,
+          selectedItemColor:
+              Colors.green[500], // Set the color for the selected item
+          unselectedItemColor: Colors.grey,
+          onTap: _onItemTapped,
+        ),
+      ),
+    );
   }
-
-
+}

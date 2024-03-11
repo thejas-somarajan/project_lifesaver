@@ -44,6 +44,8 @@ dependencies:
   charts_flutter: ^0.12.0
   image_picker: ^1.0.7
   flutter_secure_storage: ^9.0.0
+  firebase_ml_model_downloader: ^0.2.4+16
+  tflite_flutter: ^0.10.4
 
 
 
@@ -85,6 +87,9 @@ flutter:
     - lib/assets/4.jpg
     - lib/assets/5.jpg
     - lib/assets/watch_home.png
+    - lib/assets/model_anomaly.tflite
+    - lib/assets/bloodmodel_penicillin_discovered.tflite
+    - lib/assets/model_anonymoos.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

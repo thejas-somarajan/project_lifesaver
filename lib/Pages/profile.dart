@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:life_saver/Database/firestore.dart';
 import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/login_auth/firebase_auth/auth.dart';
+import 'package:life_saver/ml_implementation/ml_file.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'package:life_saver/shared/profile_editor.dart';
 import 'package:life_saver/shared/stream_function.dart';
@@ -152,7 +153,6 @@ class _ProfileState extends State<Profile> {
                                 context,
                                 MaterialPageRoute(builder: (context) => ProfileUpdate()),
                               );
-                              Userid_call();
                             },
                           ),
                         ],
@@ -172,6 +172,7 @@ class _ProfileState extends State<Profile> {
                         } else {
                           // Moved buildProfileWidget call inside StreamBuilder
                           Map<String, dynamic> userData = snapshot.data!.data() as Map<String, dynamic>;
+
                           return buildProfileWidget(userData);
                         }
                       },

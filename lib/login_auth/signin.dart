@@ -45,101 +45,150 @@ class _SigninPageState extends State<SigninPage> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.green.shade100,
       // Scaffold widget, a basic material design visual structure
-      appBar: AppBar(
-        backgroundColor: Colors.green[400],
-        // AppBar at the top of the screen with the title 'Login'
-        title: const Text('Login'),
-      ),
-      body: Form(
-        // Form widget to encapsulate form-related functionalities
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              // TextFormField for email input
-              TextFormField(
-                key: Key('emailField'),
-                keyboardType: TextInputType.emailAddress,
-                controller: _mailText,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  isDense: true,
-                  filled: true,
-                  labelStyle: TextStyle(
-                      fontSize: 12,
-                      color: Colors.green,
-                  ),
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Email is required.';
-                  } else if (!RegExp(r"^[a-zA-Z0-9.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$").hasMatch(value)) {
-                    return 'Invalid email format.';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _email = value!,
-              ),
-              SizedBox(height: 15.0),
-              // TextFormField for password input
-              TextFormField(
-                key: Key('passwordField'),
-                controller: _passText,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  isDense: true,
-                  filled: true,
-                  labelStyle: TextStyle(
-                    fontSize: 12,
-                    color: Colors.green,
-                  ),
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Password is required.';
-                  } else if (value.length < 8) {
-                    return 'Password must be at least 8 characters long.';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _password = value!,
-              ),
-              SizedBox(height: 25.0),
-              // ElevatedButton for the 'Sign In' action
-              ElevatedButton(
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    setState(() => loading = true);
-                    // _mailText.clear();
-                    // _passText.clear();
-                    // Calling the signIn method from the AuthService class
-                    UserCredential? userCredential = await auth.signIn(_email, _password, context);
-                    // Checking if sign-in was successful
-                    if (userCredential != null) {
-                      setState(() => loading = false);
-                      // Navigating to the HomePage on successful sign-in
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
-                    } else {
-                      setState(() => loading = false);
-                      // Handle sign-in failure (e.g., display error message)
-                      _showErrorSnackBar(context, 'Sign-in failed. Please try again.');
-                    }
-                  }
-                },
-                child: const Text('Sign In'),
+      body: Center(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3), // changes position of shadow
               ),
             ],
+          ),
+
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Log In',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                SizedBox(height: 10,),
+
+                Form(
+                  // Form widget to encapsulate form-related functionalities
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        // TextFormField for email input
+                        TextFormField(
+                          key: Key('emailField'),
+                          keyboardType: TextInputType.emailAddress,
+                          controller: _mailText,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            labelStyle: TextStyle(
+                                fontSize: 12,
+                                color: Colors.green,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey), // Grey border
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green), // Green border when focused
+                            ),
+                          ),
+
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required.';
+                            } else if (!RegExp(r"^[a-zA-Z0-9.+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$").hasMatch(value)) {
+                              return 'Invalid email format.';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) => _email = value!,
+                        ),
+                        SizedBox(height: 15.0),
+                        // TextFormField for password input
+                        TextFormField(
+                          key: Key('passwordField'),
+                          controller: _passText,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            isDense: true,
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            labelStyle: TextStyle(
+                              fontSize: 12,
+                              color: Colors.green,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey), // Grey border
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green), // Green border when focused
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password is required.';
+                            } else if (value.length < 8) {
+                              return 'Password must be at least 8 characters long.';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) => _password = value!,
+                        ),
+                        SizedBox(height: 15.0),
+                        // ElevatedButton for the 'Sign In' action
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              setState(() => loading = true);
+                              // _mailText.clear();
+                              // _passText.clear();
+                              // Calling the signIn method from the AuthService class
+                              UserCredential? userCredential = await auth.signIn(_email, _password, context);
+                              // Checking if sign-in was successful
+                              if (userCredential != null) {
+                                setState(() => loading = false);
+                                // Navigating to the HomePage on successful sign-in
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => HomePage()),
+                                );
+                              } else {
+                                setState(() => loading = false);
+                                // Handle sign-in failure (e.g., display error message)
+                                _showErrorSnackBar(context, 'Sign-in failed. Please try again.');
+                              }
+                            }
+                          },
+                          child: const Text('Sign In'),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
