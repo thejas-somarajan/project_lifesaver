@@ -46,6 +46,8 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   firebase_ml_model_downloader: ^0.2.4+16
   tflite_flutter: ^0.10.4
+  twilio_flutter: ^0.3.0
+  geolocator: ^11.0.0
 
 
 

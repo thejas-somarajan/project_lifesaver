@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:life_saver/ml_implementation/ml_file.dart';
+import 'package:life_saver/sms/alertsignal.dart';
+import 'package:life_saver/sms/sms_module.dart';
 
 
 
@@ -33,10 +35,18 @@ class _MyAppState extends State<Critical_interface> {
     8:[123.58,5.27,89.17,49.17,86.72,35.33],
     9:[126.71,5.8,86.97,46.97,85.29,34.87],
     10:[129.54,6.59,85.67,45.67,83.41,34.77],
+    11:[132.9,6.65,83.41,43.41,81.87,34.42],
+    12:[135.19,6.78,82.48,42.48,81.76,33.97],
+    13:[137.42,7.54,80.49,40.49,81.06,33.49],
+    14:[140.64,8.25,78.25,38.25,80.96,33.01],
+    15:[143.04,8.63,75.47,35.47,80.13,33],
   };
 
-  late Timer timer;
+  late Timer timer1;
+  late Timer timer2;
   int currentIndex = 1;
+  int light = 0;
+  int counter =1;
 
   @override
   void initState() {
@@ -50,20 +60,28 @@ class _MyAppState extends State<Critical_interface> {
     bloodController = StreamController<List<double>>();
     edaController = StreamController<List<double>>();
 
+    // Sms_Sender().profileSnatcher();
+
 
     // stageController = StreamController<int>.broadcast();
 
-    timer = Timer.periodic(Duration(seconds: 10), (Timer t) {
+    timer1 = Timer.periodic(Duration(seconds: 10), (Timer t) {
       // Simulate updating heart rate data every 2 seconds
       updateRate(dataset[currentIndex % dataset.length + 1]!);
       currentIndex++;
     });
+
+    timer2 = Timer.periodic(Duration(seconds: 30), (Timer t) {
+      // Simulate updating heart rate data every 2 seconds
+      light=0;
+      updateAlert(dataset[currentIndex % dataset.length + 1]!);
+
+    });
   }
 
   void updateRate(List<double> newRate) async {
-    int counter = await stageData(newRate);
+    counter = await stageData(newRate);
     // counter++;
-
     heartRateController.add(newRate);
     tempController.add(newRate);
     oxygenController.add(newRate);
@@ -71,12 +89,42 @@ class _MyAppState extends State<Critical_interface> {
     edaController.add(newRate);
 
     stageController.add(counter);
+
+    // if(counter >= 2 && light == 0){
+    //   bool? result = await _showAlertDialog();
+    //
+    //   if(result == false && result != null ) {
+    //     Sms_Sender().sendLocationViaSMS(newRate,counter);
+    //
+    //   }
+    //   light = 1;
+    // }
+  }
+
+  void updateAlert(List<double> newRate) async {
+    if(counter >= 2 && light == 0){
+      bool? result = await _showAlertDialog();
+
+      if(result == false  ) {
+        Sms_Sender().sendLocationViaSMS(newRate,counter);
+      }
+      light = 1;
+    }
+  }
+
+  Future<bool?> _showAlertDialog() async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAlertDialog();
+      },
+    );
   }
 
   @override
   void dispose() {
     stageController.close();
-    timer.cancel();
+    timer1.cancel();
     super.dispose();
   }
 

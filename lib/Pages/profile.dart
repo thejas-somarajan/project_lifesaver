@@ -11,6 +11,8 @@ import 'package:life_saver/shared/user_data.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'package:life_saver/sms/sms_module.dart';
+
 class Profile extends StatefulWidget {
 
   final int selectedIndex;
@@ -172,6 +174,8 @@ class _ProfileState extends State<Profile> {
                         } else {
                           // Moved buildProfileWidget call inside StreamBuilder
                           Map<String, dynamic> userData = snapshot.data!.data() as Map<String, dynamic>;
+
+                          // Sms_Sender().profileSnatcher(userData);
 
                           return buildProfileWidget(userData);
                         }
