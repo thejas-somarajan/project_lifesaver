@@ -5,6 +5,8 @@ import 'package:life_saver/Pages/tips.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'vitals/vital_status.dart';
 import 'dart:async';
+import 'package:life_saver/Database/firestore.dart';
+
 
 import 'package:life_saver/ml_implementation/ml_file.dart';
 
@@ -27,26 +29,34 @@ class _HomePageState extends State<HomePage> {
     6: [1.28,	75.83,	36.21, 95.2],
     7: [1.29,	75.55,	36.01, 93.8],
     8: [1.35,	75.57,	36.25, 96.7],
-    9: [5.36, 133.53,	36.04, 85.67],
-    10:[9.39, 121.74,	36.82, 87.69],
+    // 9: [5.36, 133.53,	36.04, 85.67],
+    // 10:[9.39, 121.74,	36.82, 87.69],
   };
 
-  late StreamController<List<double>> heartRateController;
-  late StreamController<List<double>> tempController;
-  late StreamController<List<double>> oxygenController;
+  late StreamController<Map<String, double>?> heartRateController;
+  late StreamController<Map<String, double>?> tempController;
+  late StreamController<Map<String, double>?> oxygenController;
 
   late StreamController<int> traverseController;
 
   late Timer timer;
   int currentIndex = 1;
+  int i = 1;
+
+  static int n = 1;
+  int clicked = 0;
+
+  ProfileService _profileService = ProfileService();
+
+  Simulator simulator = Simulator();
 
   @override
   void initState() {
     super.initState();
 
-    heartRateController = StreamController<List<double>>();
-    tempController = StreamController<List<double>>();
-    oxygenController = StreamController<List<double>>();
+    heartRateController = StreamController<Map<String, double>>();
+    tempController = StreamController<Map<String, double>>();
+    oxygenController = StreamController<Map<String, double>>();
 
     traverseController = StreamController<int>();
 
@@ -54,15 +64,34 @@ class _HomePageState extends State<HomePage> {
     _dateTimeController = StreamController<DateTime>.broadcast();
     _startClock();
 
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t) {
+    timer = Timer.periodic(Duration(seconds: 5), (Timer t) async{
       // Simulate updating heart rate data every 2 seconds
       print(currentIndex);
-      updateRate(normal[currentIndex % normal.length + 1]!);
+      if(clicked == 1) {
+        simulator.inCrementer(n++);
+        print('N: $n');
+        Map<String, double>? result = await simulator.getDataset();
+        updateRate(result);
+        // updateRate(result1);
+      }
+      else {
+        simulator.inCrementer(n++);
+        print('N: $n');
+        Map<String, double>? result = await simulator.getNormal();
+        updateRate(result);
+
+        // updateRate(simulator.getNormal());
+      }
+      // updateRate(result);
+      // updateRate(normal[currentIndex % normal.length + 1]!);
+
+      // _profileService.getDataset(i++);
+
       currentIndex++;
     });
   }
 
-  void updateRate(List<double> newRate) {
+  void updateRate(Map<String, double>? newRate) {
     heartRateController.add(newRate);
     tempController.add(newRate);
     oxygenController.add(newRate);
@@ -96,7 +125,7 @@ class _HomePageState extends State<HomePage> {
   // }
 
 
-  void critical_traverse(List<double> newRate) async{
+  void critical_traverse(Map<String, double>? newRate) async{
     // final Stream<String> traverse = traverseController.stream;
     int data = await processData(newRate);
     print(data);
@@ -287,11 +316,12 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Critical_interface()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => Critical_interface()),
+                    // );
+                    clicked = 1;
                   },
                   icon: Icon(Icons.add), // Wrap Icons.add with Icon widget
                   label: Text(''), // Wrap 'h' with Text widget
@@ -335,10 +365,13 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                               width:
                                   12.0), // Add some space between the image and text
-                          StreamBuilder<List<double>>(
+                          StreamBuilder<Map<String, double>?>(
                             stream: heartRateController.stream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
+                                final heartRateData = snapshot.data;
+                                final heartRate = heartRateData?['heart_rate'];
+
                                 return Row(
                                   children: [
                                     Text(
@@ -347,7 +380,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     SizedBox(width: 50),
                                     Text(
-                                      snapshot.data![1].toStringAsFixed(2),
+                                      heartRate != null ? heartRate.toStringAsFixed(2) : 'N/A',
                                       style: TextStyle(fontSize: 30.0),
                                     ),
                                     SizedBox(width: 4),
@@ -397,10 +430,13 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                               width:
                                   11.0), // Add some space between the image and text
-                          StreamBuilder<List<double>>(
+                          StreamBuilder<Map<String, double>?>(
                             stream: tempController.stream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
+                                final tempData = snapshot.data;
+                                final temp = tempData?['temp'];
+
                                 return Row(
                                   children: [
                                     Text(
@@ -409,7 +445,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                     SizedBox(width: 50),
                                     Text(
-                                      snapshot.data![2].toStringAsFixed(2),
+                                      temp != null ? temp.toStringAsFixed(2) : 'N/A',
                                       style: TextStyle(fontSize: 30.0),
                                     ),
                                     SizedBox(width: 4),
@@ -459,19 +495,22 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(
                               width:
                                   10.0), // Add some space between the image and text
-                          StreamBuilder<List<double>>(
+                          StreamBuilder<Map<String, double>?>(
                             stream: oxygenController.stream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
+                                final oxy_sat = snapshot.data;
+                                final oxy = oxy_sat?['eda'];
+
                                 return Row(
                                   children: [
                                     Text(
-                                      'Oxygen',
+                                      'EDA',
                                       style: TextStyle(fontSize: 25.0),
                                     ),
                                     SizedBox(width: 80),
                                     Text(
-                                      snapshot.data![3].toStringAsFixed(2),
+                                      oxy != null ? oxy.toStringAsFixed(2) : 'N/A',
                                       style: TextStyle(fontSize: 30.0),
                                     ),
                                     SizedBox(width: 4),

@@ -41,7 +41,40 @@ Future<FirebaseCustomModel> loadModel() async {
 // }
 
 
-Future<int> processData(List<double> row) async {
+// Future<int> processData(List<double> row) async {
+//
+//   print('Reached here');
+//   // Create a FirebaseModelInterpreter instance
+//   final interpreter = await tfl.Interpreter.fromAsset('lib/assets/model_anonymoos.tflite');
+//
+//   // List<double> input = [[2.37,115.06,36.34]];
+//
+//   List<double> input = [row[0], row[1], row[2]];
+//
+//   print(input);
+//
+//
+//   // input[0] = row[4];
+//   // input[1] = row[0];
+//   // input[2] = row[2];
+//
+//   var output = List.filled(1, 1).reshape([1,1]);
+//
+//   interpreter.run(input, output);
+//
+//
+//   int label = (output[0][0] > 0.5) ? 1 : 0;
+//
+//
+//   print(output);
+//   print(label);
+//
+//   interpreter.close();
+//
+//   return label;
+// }
+
+Future<int> processData(Map<String, double>? healthData) async {
 
   print('Reached here');
   // Create a FirebaseModelInterpreter instance
@@ -49,7 +82,7 @@ Future<int> processData(List<double> row) async {
 
   // List<double> input = [[2.37,115.06,36.34]];
 
-  List<double> input = [row[0], row[1], row[2]];
+  List<double?> input = [healthData?['eda'], healthData?['heart_rate'], healthData?['temp']];
 
   print(input);
 
@@ -75,7 +108,7 @@ Future<int> processData(List<double> row) async {
 }
 
 
-Future<int> stageData(List<double> row) async {
+Future<int> stageData(Map<String, double>? healthData) async {
 
   print('Reached here');
   // Create a FirebaseModelInterpreter instance
@@ -83,9 +116,11 @@ Future<int> stageData(List<double> row) async {
 
   // var input = [[116.85, 3.71, 58.3, 18.3, 67.01, 29.71]];
 
+  List<double?> input = [healthData?['heart_rate'], healthData?['eda'], healthData?['blood_sys'], healthData?['blood_dys'], healthData?['oxy_sat'], healthData?['temp']];
+
   var output = List.filled(1*5, 0).reshape([1,5]);
 
-  interpreter.run(row, output);
+  interpreter.run(input, output);
 
   print(output);
 

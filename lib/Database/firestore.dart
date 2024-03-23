@@ -8,6 +8,9 @@ class ProfileService {
   final CollectionReference _profileDetails =
   FirebaseFirestore.instance.collection('profile');
 
+  final CollectionReference simulate =
+  FirebaseFirestore.instance.collection('dataset');
+
   Future<void> updateUserData(Map<String, dynamic> profileData) async {
     try {
       final String? uid = await UserData().getCurrentUserId();
@@ -55,6 +58,97 @@ class ProfileService {
     }
   }
 
+  // Future<void> getDataset(int i) async {
+  //   try {
+  //     String index = i.toString();
+  //     final DocumentSnapshot snapshot = await simulate.doc(index).get();
+  //     print(snapshot.data());
+  //   } catch (e) {
+  //     print('Error getting dataset: $e');
+  //   }
+  // }
+
+}
+
+class Simulator{
+
+  final CollectionReference simulate =
+  FirebaseFirestore.instance.collection('dataset');
+
+
+  final CollectionReference normal =
+  FirebaseFirestore.instance.collection('normal');
+
+  static int i = 1;
+  static int j = 0;
+
+  int inCrementer(int n) {
+    i =  n % 5;
+    print('i: $i');
+    return i;
+  }
+
+  Future<Map<String, double>?> getNormal() async {
+    try {
+      String index = i.toString();
+      final DocumentSnapshot snapshot = await normal.doc(index).get();
+      print(snapshot.data());
+      Object? sender = snapshot.data();
+
+      if (sender is Map<String, dynamic>) {
+        Map<String, double> convertedData = {};
+        sender.forEach((key, value) {
+          if (value is double) {
+            convertedData[key] = value;
+          } else if (value is int) {
+            convertedData[key] = value.toDouble();
+          } else if (value is String) {
+              convertedData[key] = double.parse(value);
+          } else {
+            print("Unsupported data type for key $key: ${value.runtimeType}");
+          }
+        });
+        return convertedData;
+      };
+
+      // return snapshot.data();
+      // return convertedData;
+    } catch (e) {
+      print('Error getting dataset: $e');
+    }
+  }
+
+
+  Future<Map<String, double>?> getDataset() async {
+    try {
+      String index = j.toString();
+      print('reached dataset');
+      j++;
+      final DocumentSnapshot snapshot = await simulate.doc(index).get();
+      print(snapshot.data());
+
+      Object? sender = snapshot.data();
+      if (sender is Map<String, dynamic>) {
+        Map<String, double> convertedData = {};
+        sender.forEach((key, value) {
+          if (value is double) {
+            convertedData[key] = value;
+          } else if (value is int) {
+            convertedData[key] = value.toDouble();
+          } else if (value is String) {
+            convertedData[key] = double.parse(value);
+          } else {
+            print("Unsupported data type for key $key: ${value.runtimeType}");
+          }
+        });
+        return convertedData;
+      };
+
+
+    } catch (e) {
+      print('Error getting dataset: $e');
+    }
+  }
 }
 
 

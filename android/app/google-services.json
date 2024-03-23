@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "152549097696",
-    "project_id": "lifesaver-3000",
-    "storage_bucket": "lifesaver-3000.appspot.com"
+    "project_number": "733320819429",
+    "project_id": "test-lifeboat",
+    "storage_bucket": "test-lifeboat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:152549097696:android:6e7f7e53ed8ae8c3d91085",
+        "mobilesdk_app_id": "1:733320819429:android:37df05a3cfa6bf9f769a0c",
         "android_client_info": {
           "package_name": "com.example.life_saver"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC5wLM4XHkklh9qkp8RcR_ncL1k_0UW92U"
+          "current_key": "AIzaSyBasDGlUb1DluQijzBpI160kQn3i-37C_M"
         }
       ],
       "services": {

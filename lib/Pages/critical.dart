@@ -6,6 +6,9 @@ import 'package:life_saver/sms/alertsignal.dart';
 import 'package:life_saver/sms/sms_module.dart';
 
 
+import 'package:life_saver/Database/firestore.dart';
+
+
 
 class Critical_interface extends StatefulWidget {
   @override
@@ -17,11 +20,14 @@ class _MyAppState extends State<Critical_interface> {
 
   late StreamController<int> stageController = StreamController<int>();
 
-  late StreamController<List<double>> heartRateController;
-  late StreamController<List<double>> tempController;
-  late StreamController<List<double>> oxygenController;
-  late StreamController<List<double>> bloodController;
-  late StreamController<List<double>> edaController;
+  late StreamController<Map<String, double>?> heartRateController;
+  late StreamController<Map<String, double>?> tempController;
+  late StreamController<Map<String, double>?> oxygenController;
+  late StreamController<Map<String, double>?> bloodController;
+  late StreamController<Map<String, double>?> edaController;
+
+
+  Simulator simulator = Simulator();
 
 
   Map<int, List<double>> dataset = {
@@ -42,11 +48,17 @@ class _MyAppState extends State<Critical_interface> {
     15:[143.04,8.63,75.47,35.47,80.13,33],
   };
 
+
+
+
+
   late Timer timer1;
   late Timer timer2;
   int currentIndex = 1;
   int light = 0;
   int counter =1;
+
+  int n = 1;
 
   @override
   void initState() {
@@ -54,20 +66,24 @@ class _MyAppState extends State<Critical_interface> {
 
 
 
-    heartRateController = StreamController<List<double>>();
-    tempController = StreamController<List<double>>();
-    oxygenController = StreamController<List<double>>();
-    bloodController = StreamController<List<double>>();
-    edaController = StreamController<List<double>>();
+    heartRateController = StreamController<Map<String, double>>();
+    tempController = StreamController<Map<String, double>>();
+    oxygenController = StreamController<Map<String, double>>();
+    bloodController = StreamController<Map<String, double>>();
+    edaController = StreamController<Map<String, double>>();
 
     // Sms_Sender().profileSnatcher();
 
 
     // stageController = StreamController<int>.broadcast();
 
-    timer1 = Timer.periodic(Duration(seconds: 10), (Timer t) {
+    timer1 = Timer.periodic(Duration(seconds: 10), (Timer t) async {
       // Simulate updating heart rate data every 2 seconds
-      updateRate(dataset[currentIndex % dataset.length + 1]!);
+      simulator.inCrementer(n++);
+      print('N: $n');
+      Map<String, double>? result = await simulator.getDataset();
+      updateRate(result);
+      // updateRate(dataset[currentIndex % dataset.length + 1]!);
       currentIndex++;
     });
 
@@ -79,7 +95,7 @@ class _MyAppState extends State<Critical_interface> {
     });
   }
 
-  void updateRate(List<double> newRate) async {
+  void updateRate(Map<String, double>? newRate) async {
     counter = await stageData(newRate);
     // counter++;
     heartRateController.add(newRate);
@@ -299,10 +315,14 @@ class _MyAppState extends State<Critical_interface> {
                                 ),
                                 const SizedBox(width: 12.0),
                                 // Add some space between the image and text
-                                StreamBuilder<List<double>>(
+                                StreamBuilder<Map<String, double>?>(
                                   stream: heartRateController.stream,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
+
+                                      final heartRateData = snapshot.data;
+                                      final heartRate = heartRateData?['heart_rate'];
+
                                       return Row(
                                         children: [
                                           Text(
@@ -311,7 +331,7 @@ class _MyAppState extends State<Critical_interface> {
                                           ),
                                           SizedBox(width: 50),
                                           Text(
-                                            snapshot.data![0].toStringAsFixed(2),
+                                            heartRate != null ? heartRate.toStringAsFixed(2) : 'N/A',
                                             style: TextStyle(fontSize: 30.0),
                                           ),
                                           SizedBox(width: 4),
@@ -361,10 +381,14 @@ class _MyAppState extends State<Critical_interface> {
                                 ),
                                 const SizedBox(width: 11.0),
                                 // Add some space between the image and text
-                                StreamBuilder<List<double>>(
+                                StreamBuilder<Map<String, double>?>(
                                   stream: tempController.stream,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
+
+                                      final tempData = snapshot.data;
+                                      final temp = tempData?['temp'];
+
                                       return Row(
                                         children: [
                                           Text(
@@ -373,7 +397,7 @@ class _MyAppState extends State<Critical_interface> {
                                           ),
                                           SizedBox(width: 50),
                                           Text(
-                                            snapshot.data![2].toStringAsFixed(2),
+                                            temp != null ? temp.toStringAsFixed(2) : 'N/A',
                                             style: TextStyle(fontSize: 30.0),
                                           ),
                                           SizedBox(width: 4),
@@ -422,10 +446,14 @@ class _MyAppState extends State<Critical_interface> {
                                 ),
                                 const SizedBox(width: 10.0),
                                 // Add some space between the image and text
-                                StreamBuilder<List<double>>(
+                                StreamBuilder<Map<String, double>?>(
                                   stream: oxygenController.stream,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
+
+                                      final oxysatData = snapshot.data;
+                                      final oxy_sat = oxysatData?['oxy_sat'];
+
                                       return Row(
                                         children: [
                                           Text(
@@ -434,7 +462,7 @@ class _MyAppState extends State<Critical_interface> {
                                           ),
                                           SizedBox(width: 90),
                                           Text(
-                                            snapshot.data![1].toStringAsFixed(2),
+                                            oxy_sat != null ? oxy_sat.toStringAsFixed(2) : 'N/A',
                                             style: TextStyle(fontSize: 30.0),
                                           ),
                                           SizedBox(width: 4),
@@ -483,10 +511,14 @@ class _MyAppState extends State<Critical_interface> {
                                 ),
                                 const SizedBox(width: 9.0),
                                 // Add some space between the image and text
-                                StreamBuilder<List<double>>(
+                                StreamBuilder<Map<String, double>?>(
                                   stream: bloodController.stream,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
+
+                                      final blood_sysData = snapshot.data;
+                                      final blood_sys = blood_sysData?['blood_sys'];
+
                                       return Row(
                                         children: [
                                           Text(
@@ -495,7 +527,7 @@ class _MyAppState extends State<Critical_interface> {
                                           ),
                                           SizedBox(width: 90),
                                           Text(
-                                            snapshot.data![3].toStringAsFixed(2),
+                                            blood_sys != null ? blood_sys.toStringAsFixed(2) : 'N/A',
                                             style: TextStyle(fontSize: 30.0),
                                           ),
                                           SizedBox(width: 5),
@@ -546,10 +578,14 @@ class _MyAppState extends State<Critical_interface> {
                                 const SizedBox(width: 12.0),
                                 // Add some space between the image and text
 
-                                StreamBuilder<List<double>>(
+                                StreamBuilder<Map<String, double>?>(
                                   stream: edaController.stream,
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
+
+                                      final edaData = snapshot.data;
+                                      final eda = edaData?['eda'];
+
                                       return Row(
                                         children: [
                                           Text(
@@ -558,7 +594,7 @@ class _MyAppState extends State<Critical_interface> {
                                           ),
                                           SizedBox(width: 120),
                                           Text(
-                                            snapshot.data![4].toStringAsFixed(2),
+                                            eda != null ? eda.toStringAsFixed(2) : 'N/A',
                                             style: TextStyle(fontSize: 30.0),
                                           ),
                                           SizedBox(width: 4),

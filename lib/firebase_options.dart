@@ -44,37 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCpewqGYYeFQ1_pPF6Td1aapg1htY_iFA8',
-    appId: '1:152549097696:web:017b6592a3c2e086d91085',
-    messagingSenderId: '152549097696',
-    projectId: 'lifesaver-3000',
-    authDomain: 'lifesaver-3000.firebaseapp.com',
-    storageBucket: 'lifesaver-3000.appspot.com',
+    apiKey: 'AIzaSyDN17AZjNYhTMc4KvsX4h-6Xh1ZPsuWC9s',
+    appId: '1:733320819429:web:3af2e49149fe8857769a0c',
+    messagingSenderId: '733320819429',
+    projectId: 'test-lifeboat',
+    authDomain: 'test-lifeboat.firebaseapp.com',
+    storageBucket: 'test-lifeboat.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC5wLM4XHkklh9qkp8RcR_ncL1k_0UW92U',
-    appId: '1:152549097696:android:6e7f7e53ed8ae8c3d91085',
-    messagingSenderId: '152549097696',
-    projectId: 'lifesaver-3000',
-    storageBucket: 'lifesaver-3000.appspot.com',
+    apiKey: 'AIzaSyBasDGlUb1DluQijzBpI160kQn3i-37C_M',
+    appId: '1:733320819429:android:37df05a3cfa6bf9f769a0c',
+    messagingSenderId: '733320819429',
+    projectId: 'test-lifeboat',
+    storageBucket: 'test-lifeboat.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBaFSy7ceezKvmqNwfZJnxwuk-36jLSJug',
-    appId: '1:152549097696:ios:aacc7c5742673970d91085',
-    messagingSenderId: '152549097696',
-    projectId: 'lifesaver-3000',
-    storageBucket: 'lifesaver-3000.appspot.com',
+    apiKey: 'AIzaSyBvWa29PCaXW486VJVK_d95WJl8XtRGfuQ',
+    appId: '1:733320819429:ios:46b4206f422e5061769a0c',
+    messagingSenderId: '733320819429',
+    projectId: 'test-lifeboat',
+    storageBucket: 'test-lifeboat.appspot.com',
     iosBundleId: 'com.example.lifeSaver',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBaFSy7ceezKvmqNwfZJnxwuk-36jLSJug',
-    appId: '1:152549097696:ios:9a47b1cb2f3ffab9d91085',
-    messagingSenderId: '152549097696',
-    projectId: 'lifesaver-3000',
-    storageBucket: 'lifesaver-3000.appspot.com',
+    apiKey: 'AIzaSyBvWa29PCaXW486VJVK_d95WJl8XtRGfuQ',
+    appId: '1:733320819429:ios:ad1dc6e5afcfe3e4769a0c',
+    messagingSenderId: '733320819429',
+    projectId: 'test-lifeboat',
+    storageBucket: 'test-lifeboat.appspot.com',
     iosBundleId: 'com.example.lifeSaver.RunnerTests',
   );
 }
