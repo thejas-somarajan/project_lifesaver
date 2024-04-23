@@ -692,7 +692,7 @@ class _MyAppState extends State<Critical_interface> {
                             Colors.orange : stage == 4 ?
                             Colors.red : Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 25.0,)),
+                            fontSize: 23.0,)),
                     ],
                   ),
                   Divider(thickness: 1, color: Colors.grey),
@@ -704,7 +704,7 @@ class _MyAppState extends State<Critical_interface> {
                           style: TextStyle(fontSize: 18.0,
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,)),
-                      SizedBox(width: 65),
+                      SizedBox(width: 55),
                       Text(
                           stage == 1 ?
                           'Dizzy' : stage == 2 ?

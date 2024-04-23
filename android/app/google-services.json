@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "733320819429",
-    "project_id": "test-lifeboat",
-    "storage_bucket": "test-lifeboat.appspot.com"
+    "project_number": "798337976305",
+    "project_id": "lifesaver-5000",
+    "storage_bucket": "lifesaver-5000.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:733320819429:android:37df05a3cfa6bf9f769a0c",
+        "mobilesdk_app_id": "1:798337976305:android:501ecd259f4cde2fc4a650",
+        "android_client_info": {
+          "package_name": "com.example.data_uploader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuEEabKIb9euyAy-FTCx42DV1BfemYah8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:798337976305:android:6220f93567359403c4a650",
         "android_client_info": {
           "package_name": "com.example.life_saver"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBasDGlUb1DluQijzBpI160kQn3i-37C_M"
+          "current_key": "AIzaSyDuEEabKIb9euyAy-FTCx42DV1BfemYah8"
         }
       ],
       "services": {
