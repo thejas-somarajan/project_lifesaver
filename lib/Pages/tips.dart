@@ -202,16 +202,20 @@ class _FeatureState extends State<Feature> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.message, color: _selectedIndex == 0 ? Colors.blue : Colors.white),
+            icon: Icon(Icons.message, color: _selectedIndex == 0 ? Colors.blue : Colors.green),
             label: 'Tips',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info, color: _selectedIndex == 1 ? Colors.yellowAccent : Colors.white),
+            icon: Icon(Icons.info, color: _selectedIndex == 1 ? Colors.yellowAccent : Colors.green),
             label: 'Vitals',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: _selectedIndex == 2 ? Colors.blue : Colors.white),
+            icon: Icon(Icons.person, color: _selectedIndex == 2 ? Colors.blue : Colors.green),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.watch, color: _selectedIndex == 3 ? Colors.blue : Colors.green),
+            label: 'Watch',
           ),
         ],
         currentIndex: _selectedIndex,

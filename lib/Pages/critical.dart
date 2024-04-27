@@ -87,7 +87,7 @@ class _MyAppState extends State<Critical_interface> {
       currentIndex++;
     });
 
-    timer2 = Timer.periodic(Duration(seconds: 30), (Timer t) {
+    timer2 = Timer.periodic(Duration(seconds: 60), (Timer t) {
       // Simulate updating heart rate data every 2 seconds
       light=0;
       updateAlert(dataset[currentIndex % dataset.length + 1]!);

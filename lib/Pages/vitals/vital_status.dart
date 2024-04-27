@@ -639,6 +639,10 @@ class _vitalsPageState extends State<vitalsPage> {
             icon: Icon(Icons.person, color: _selectedIndex == 2 ? Colors.green[500] : Colors.grey),
             label: 'Profile',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.watch, color: _selectedIndex == 3 ? Colors.green[500] : Colors.grey),
+            label: 'Watch',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.green[500],

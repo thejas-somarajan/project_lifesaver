@@ -299,13 +299,13 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             formattedTime,
                             style: TextStyle(
-                                fontSize: 26.0, fontWeight: FontWeight.bold),
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(width: 20.0),
+                          SizedBox(width: 15.0),
                           Text(
                             dateMonth,
                             style: TextStyle(
-                                fontSize: 26.0, fontWeight: FontWeight.bold),
+                                fontSize: 15.0, fontWeight: FontWeight.bold),
                           ),
                         ],
                       );
@@ -550,7 +550,7 @@ class _HomePageState extends State<HomePage> {
                     Colors.green[500],
                 // : Colors.grey
               ), // Set color conditionally
-              label: 'Tips',
+               label: 'Tips',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.info,
@@ -570,6 +570,15 @@ class _HomePageState extends State<HomePage> {
                 // : Colors.grey
               ), // Set color conditionally
               label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.watch,
+                color:
+                //  _selectedIndex == 2 ?
+                Colors.green[500],
+              ),
+              label: 'Watch',
             ),
           ],
           //  currentIndex: _selectedIndex,

@@ -1,7 +1,10 @@
 
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:life_saver/arduino-transfer/data_sender.dart';
+import 'package:life_saver/arduino-transfer/my_homepage.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
+import 'package:life_saver/arduino-transfer/data_sender.dart';
 
 
 Future<FirebaseCustomModel> loadModel() async {
@@ -95,7 +98,6 @@ Future<int> processData(Map<String, double>? healthData) async {
 
   interpreter.run(input, output);
 
-
   int label = (output[0][0] > 0.5) ? 1 : 0;
 
 
@@ -136,10 +138,15 @@ Future<int> stageData(Map<String, double>? healthData) async {
   print(predictions);
 
   int predictedLabel = argmax(predictions);
-  print(predictedLabel);
-
-
+  print('this is the predicted ${predictedLabel}');
   interpreter.close();
+
+  int count = 0;
+
+  if(predictedLabel == 2) {
+    print('reached if');
+    DataArd().sendCommand('0');
+  }
 
   return predictedLabel;
 }
