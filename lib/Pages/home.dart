@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   late Timer timer;
   int currentIndex = 1;
   int i = 1;
+  // int _selectedIndex = 3;
 
   static int n = 1;
   int clicked = 0;
@@ -238,8 +239,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Image.asset(
                       'lib/assets/watch_home.png',
-                      width: 120.0, // Adjust size as needed
-                      height: 160.0, // Adjust size as needed
+                      width: 100.0, // Adjust size as needed
+                      height: 140.0, // Adjust size as needed
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,11 +248,11 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Text(
                           'Apple S8',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                         Text(
                           'connected',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style: TextStyle(fontSize: 14, color: Colors.white),
                         ),
                         SizedBox(
                           height: 4,
@@ -270,8 +271,8 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Image.asset(
                       'lib/assets/logo.png',
-                      width: 180.0, // Adjust size as needed
-                      height: 130.0, // Adjust size as needed
+                      width: 150.0, // Adjust size as needed
+                      height: 120.0, // Adjust size as needed
                     ),
                   ],
                 ),
@@ -299,13 +300,13 @@ class _HomePageState extends State<HomePage> {
                           Text(
                             formattedTime,
                             style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(width: 15.0),
                           Text(
                             dateMonth,
                             style: TextStyle(
-                                fontSize: 15.0, fontWeight: FontWeight.bold),
+                                fontSize: 20.0, fontWeight: FontWeight.bold),
                           ),
                         ],
                       );
@@ -364,7 +365,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           const SizedBox(
                               width:
-                                  12.0), // Add some space between the image and text
+                                  10.0), // Add some space between the image and text
                           StreamBuilder<Map<String, double>?>(
                             stream: heartRateController.stream,
                             builder: (context, snapshot) {
@@ -376,12 +377,12 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Text(
                                       'Heart Rate',
-                                      style: TextStyle(fontSize: 25.0),
+                                      style: TextStyle(fontSize: 20.0),
                                     ),
-                                    SizedBox(width: 50),
+                                    SizedBox(width: 30),
                                     Text(
                                       heartRate != null ? heartRate.toStringAsFixed(2) : 'N/A',
-                                      style: TextStyle(fontSize: 30.0),
+                                      style: TextStyle(fontSize: 23.0),
                                     ),
                                     SizedBox(width: 4),
                                     Text(
@@ -443,10 +444,10 @@ class _HomePageState extends State<HomePage> {
                                       'Temperature',
                                       style: TextStyle(fontSize: 20.0),
                                     ),
-                                    SizedBox(width: 50),
+                                    SizedBox(width: 25),
                                     Text(
                                       temp != null ? temp.toStringAsFixed(2) : 'N/A',
-                                      style: TextStyle(fontSize: 30.0),
+                                      style: TextStyle(fontSize: 25.0),
                                     ),
                                     SizedBox(width: 4),
                                     Text(
@@ -511,7 +512,7 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(width: 80),
                                     Text(
                                       oxy != null ? oxy.toStringAsFixed(2) : 'N/A',
-                                      style: TextStyle(fontSize: 30.0),
+                                      style: TextStyle(fontSize: 25.0),
                                     ),
                                     SizedBox(width: 4),
                                     Text(
@@ -538,56 +539,57 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.message,
-                color:
-                    //selectedIndex == 0 ?
-                    Colors.green[500],
-                // : Colors.grey
-              ), // Set color conditionally
-               label: 'Tips',
+
+    bottomNavigationBar: PreferredSize(
+      preferredSize: const Size.fromHeight(70),
+      child: BottomNavigationBar(
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(
+              Icons.message,
+              color:
+              //selectedIndex == 0 ?
+              Colors.green[500],
+            // : Colors.grey
+            ), // Set color conditionally
+            label: 'Tips',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.info,
-                  color:
-                      // _selectedIndex == 1 ?
-                      Colors.green[500]
-                  // : Colors.grey
-                  ), // Set color conditionally
-              label: 'Vitals',
+              color:
+              // _selectedIndex == 1 ?
+              Colors.green[500]
+            // : Colors.grey
+            ), // Set color conditionally
+            label: 'Vitals',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                color:
-                    //  _selectedIndex == 2 ?
-                    Colors.green[500],
-                // : Colors.grey
-              ), // Set color conditionally
-              label: 'Profile',
+            icon: Icon(
+              Icons.person,
+              color:
+              //  _selectedIndex == 2 ?
+              Colors.green[500],
+            // : Colors.grey
+            ), // Set color conditionally
+            label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.watch,
-                color:
-                //  _selectedIndex == 2 ?
-                Colors.green[500],
-              ),
-              label: 'Watch',
+            icon: Icon(
+              Icons.watch,
+              color:
+              //  _selectedIndex == 2 ?
+              Colors.green[500],
             ),
-          ],
-          //  currentIndex: _selectedIndex,
-          selectedItemColor:
-              Colors.green[500], // Set the color for the selected item
-          unselectedItemColor: Colors.grey,
-          onTap: _onItemTapped,
+          label: 'Watch',
         ),
-      ),
+      ],
+      //  currentIndex: _selectedIndex,
+      // selectedItemColor:
+      //     Colors.green[500], // Set the color for the selected item
+      // // unselectedItemColor: Colors.grey,
+      onTap: _onItemTapped,
+    ),
+    ),
     );
   }
 }

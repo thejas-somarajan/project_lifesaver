@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:life_saver/arduino-transfer/data_sender.dart';
 import 'dart:async';
 
 import 'package:life_saver/ml_implementation/ml_file.dart';
@@ -87,7 +88,7 @@ class _MyAppState extends State<Critical_interface> {
       currentIndex++;
     });
 
-    timer2 = Timer.periodic(Duration(seconds: 60), (Timer t) {
+    timer2 = Timer.periodic(Duration(seconds: 45), (Timer t) {
       // Simulate updating heart rate data every 2 seconds
       light=0;
       updateAlert(dataset[currentIndex % dataset.length + 1]!);
@@ -122,6 +123,7 @@ class _MyAppState extends State<Critical_interface> {
       bool? result = await _showAlertDialog();
 
       if(result == false  ) {
+        DataArd().sendCommand('s');
         Sms_Sender().sendLocationViaSMS(newRate,counter);
       }
       light = 1;
@@ -327,14 +329,14 @@ class _MyAppState extends State<Critical_interface> {
                                         children: [
                                           Text(
                                             'Heart Rate',
-                                            style: TextStyle(fontSize: 25.0),
+                                            style: TextStyle(fontSize: 19.0),
                                           ),
-                                          SizedBox(width: 50),
+                                          SizedBox(width: 30),
                                           Text(
                                             heartRate != null ? heartRate.toStringAsFixed(2) : 'N/A',
-                                            style: TextStyle(fontSize: 30.0),
+                                            style: TextStyle(fontSize: 25.0),
                                           ),
-                                          SizedBox(width: 4),
+                                          SizedBox(width: 2),
                                           Text(
                                             'BPM',
                                             style: TextStyle(fontSize: 15.0),
@@ -393,17 +395,17 @@ class _MyAppState extends State<Critical_interface> {
                                         children: [
                                           Text(
                                             'Temperature',
-                                            style: TextStyle(fontSize: 22.0),
+                                            style: TextStyle(fontSize: 19.0),
                                           ),
-                                          SizedBox(width: 50),
+                                          SizedBox(width: 30),
                                           Text(
                                             temp != null ? temp.toStringAsFixed(2) : 'N/A',
-                                            style: TextStyle(fontSize: 30.0),
+                                            style: TextStyle(fontSize: 25.0),
                                           ),
-                                          SizedBox(width: 4),
+                                          SizedBox(width: 2),
                                           Text(
                                             '°C',
-                                            style: TextStyle(fontSize: 15.0),
+                                            style: TextStyle(fontSize: 12.0),
                                           ),
                                         ],
                                       );
@@ -458,9 +460,9 @@ class _MyAppState extends State<Critical_interface> {
                                         children: [
                                           Text(
                                             'Oxygen',
-                                            style: TextStyle(fontSize: 25.0),
+                                            style: TextStyle(fontSize: 20.0),
                                           ),
-                                          SizedBox(width: 90),
+                                          SizedBox(width: 50),
                                           Text(
                                             oxy_sat != null ? oxy_sat.toStringAsFixed(2) : 'N/A',
                                             style: TextStyle(fontSize: 30.0),
@@ -468,7 +470,7 @@ class _MyAppState extends State<Critical_interface> {
                                           SizedBox(width: 4),
                                           Text(
                                             '%',
-                                            style: TextStyle(fontSize: 15.0),
+                                            style: TextStyle(fontSize: 10.0),
                                           ),
                                         ],
                                       );
@@ -523,16 +525,16 @@ class _MyAppState extends State<Critical_interface> {
                                         children: [
                                           Text(
                                             'Blood ',
-                                            style: TextStyle(fontSize: 25.0),
+                                            style: TextStyle(fontSize: 20.0),
                                           ),
-                                          SizedBox(width: 90),
+                                          SizedBox(width: 60),
                                           Text(
                                             blood_sys != null ? blood_sys.toStringAsFixed(2) : 'N/A',
-                                            style: TextStyle(fontSize: 30.0),
+                                            style: TextStyle(fontSize: 25.0),
                                           ),
                                           SizedBox(width: 5),
                                           Text(
-                                            '%',
+                                            'mm',
                                             style: TextStyle(fontSize: 15.0),
                                           ),
                                         ],
@@ -592,14 +594,14 @@ class _MyAppState extends State<Critical_interface> {
                                             'EDA',
                                             style: TextStyle(fontSize: 25.0),
                                           ),
-                                          SizedBox(width: 120),
+                                          SizedBox(width: 80),
                                           Text(
                                             eda != null ? eda.toStringAsFixed(2) : 'N/A',
-                                            style: TextStyle(fontSize: 30.0),
+                                            style: TextStyle(fontSize: 25.0),
                                           ),
                                           SizedBox(width: 4),
                                           Text(
-                                            '%',
+                                            '',
                                             style: TextStyle(fontSize: 15.0),
                                           ),
                                         ],
@@ -652,15 +654,15 @@ class _MyAppState extends State<Critical_interface> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(width: 25),
+                      SizedBox(width: 20),
                       Text('Predicted Case :',
                           style: TextStyle(fontSize: 18.0,
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,)),
-                      SizedBox(width: 15),
+                      SizedBox(width: 10),
                       Text(
                           'hemorrhage',
-                          style: TextStyle(fontSize: 25.0,
+                          style: TextStyle(fontSize: 18.0,
                             color: stage == 1 ?
                             Colors.green : stage == 2 ?
                             Colors.yellow[500] : stage == 3 ?
@@ -677,7 +679,7 @@ class _MyAppState extends State<Critical_interface> {
                           style: TextStyle(fontSize: 18.0,
                             color: Colors.black54,
                             fontWeight: FontWeight.bold,)),
-                      SizedBox(width: 90),
+                      SizedBox(width: 80),
 
                       Text(
                           stage == 1 ?
@@ -692,7 +694,7 @@ class _MyAppState extends State<Critical_interface> {
                             Colors.orange : stage == 4 ?
                             Colors.red : Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 23.0,)),
+                            fontSize: 20.0,)),
                     ],
                   ),
                   Divider(thickness: 1, color: Colors.grey),
@@ -711,7 +713,7 @@ class _MyAppState extends State<Critical_interface> {
                           'Agitated' : stage == 3 ?
                           'Unconscious' : stage == 4 ?
                           'Unresponsive' : 'Unresponsive',
-                          style: TextStyle(fontSize: 25.0,
+                          style: TextStyle(fontSize: 16.0,
                             color: stage == 1 ?
                             Colors.green : stage == 2 ?
                             Colors.yellow[500] : stage == 3 ?

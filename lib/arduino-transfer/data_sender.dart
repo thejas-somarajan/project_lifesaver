@@ -5,6 +5,7 @@ import 'package:life_saver/shared/navigator.dart';
 import 'device_page.dart';
 import 'dart:convert';
 
+
 class DataArd {
   static BluetoothConnection? connection; // Use BluetoothDevice instead of var
 

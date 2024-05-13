@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:life_saver/arduino-transfer/data_sender.dart';
 import 'package:life_saver/ml_implementation/ml_file.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +24,7 @@ class Sms_Sender {
     final currentUser = FirebaseAuth.instance.currentUser;
     final String uid;
     if (currentUser != null) {
+
       uid = currentUser.uid;
       final docSnapshot = await profileDetails.doc(uid).get();
 
@@ -47,9 +49,9 @@ class Sms_Sender {
           desiredAccuracy: LocationAccuracy.high);
       if (position != null && counter == 0) {
         final TwilioFlutter twilioFlutter = TwilioFlutter(
-          accountSid: 'AC92c272072cced50fffd18799fb511dae', // replace with Account SID
-          authToken: '05657fc202a4ffd6aa08cb3a3d6fb579', // replace with Auth Token
-          twilioNumber: '+19783841755', // replace with Twilio Number (With country code)
+          accountSid: 'ACe0a356f46ca2b6b8d4d33af2ee7cdbee', // replace with Account SID
+          authToken: 'da8d1bd4514e1c9ddf7c08b6fa8dacdc', // replace with Auth Token
+          twilioNumber: '+18144731778', // replace with Twilio Number (With country code)
         );
 
         String messageBody = '\nEmergency\n';
@@ -77,6 +79,7 @@ class Sms_Sender {
         );
 
         print('Location sent via SMS successfully');
+        // DataArd().sendCommand('m');
       } else {
         print('Unable to fetch current location');
       }

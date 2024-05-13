@@ -106,7 +106,7 @@ class _FeatureState extends State<Feature> {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                  icon: const Icon(Icons.keyboard_return_rounded),
+                  icon: const Icon(Icons.home),
                   color: Colors.white,
                   onPressed: () {
                     // Navigate back to the home page

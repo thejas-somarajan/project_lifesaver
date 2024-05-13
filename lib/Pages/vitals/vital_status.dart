@@ -239,12 +239,12 @@ class _vitalsPageState extends State<vitalsPage> {
                                 children: [
                                   Text(
                                     'Heart Rate',
-                                    style: TextStyle(fontSize: 25.0),
+                                    style: TextStyle(fontSize: 22.0),
                                   ),
-                                  SizedBox(width: 50),
+                                  SizedBox(width: 30),
                                   Text(
                                     snapshot.data![0].toStringAsFixed(2),
-                                    style: TextStyle(fontSize: 30.0),
+                                    style: TextStyle(fontSize: 26.0),
                                   ),
                                   SizedBox(width: 4),
                                   Text(
@@ -301,10 +301,10 @@ class _vitalsPageState extends State<vitalsPage> {
                                     'Temperature',
                                     style: TextStyle(fontSize: 22.0),
                                   ),
-                                  SizedBox(width: 50),
+                                  SizedBox(width: 25),
                                   Text(
                                     snapshot.data![2].toStringAsFixed(2),
-                                    style: TextStyle(fontSize: 30.0),
+                                    style: TextStyle(fontSize: 26.0),
                                   ),
                                   SizedBox(width: 4),
                                   Text(
@@ -361,10 +361,10 @@ class _vitalsPageState extends State<vitalsPage> {
                                     'Oxygen',
                                     style: TextStyle(fontSize: 25.0),
                                   ),
-                                  SizedBox(width: 90),
+                                  SizedBox(width: 50),
                                   Text(
                                     snapshot.data![1].toStringAsFixed(2),
-                                    style: TextStyle(fontSize: 30.0),
+                                    style: TextStyle(fontSize: 26.0),
                                   ),
                                   SizedBox(width: 4),
                                   Text(
@@ -421,14 +421,14 @@ class _vitalsPageState extends State<vitalsPage> {
                                     'Blood ',
                                     style: TextStyle(fontSize: 25.0),
                                   ),
-                                  SizedBox(width: 90),
+                                  SizedBox(width: 60),
                                   Text(
                                     snapshot.data![3].toStringAsFixed(2),
-                                    style: TextStyle(fontSize: 30.0),
+                                    style: TextStyle(fontSize: 26.0),
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    '%',
+                                    'mm',
                                     style: TextStyle(fontSize: 15.0),
                                   ),
                                 ],
@@ -481,10 +481,10 @@ class _vitalsPageState extends State<vitalsPage> {
                                     'EDA',
                                     style: TextStyle(fontSize: 25.0),
                                   ),
-                                  SizedBox(width: 120),
+                                  SizedBox(width: 90),
                                   Text(
                                     snapshot.data![4].toStringAsFixed(2),
-                                    style: TextStyle(fontSize: 30.0),
+                                    style: TextStyle(fontSize: 26.0),
                                   ),
                                   SizedBox(width: 4),
                                   Text(
@@ -560,7 +560,7 @@ class _vitalsPageState extends State<vitalsPage> {
           SizedBox(width: 10),
           Text(
             'User status: Normal',
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: TextStyle(fontSize: 15, color: Colors.white),
           ),
         ],
       ),

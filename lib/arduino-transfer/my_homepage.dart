@@ -1,6 +1,7 @@
 // pages/my_home_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial_ble/flutter_bluetooth_serial_ble.dart';
+import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'device_page.dart';
 import 'dart:convert';
@@ -66,8 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _sendCommandToArduino() {
     if (connection != null && connection!.isConnected) {
-      connection!.output.add(utf8.encode('1'));
+      connection!.output.add(utf8.encode('0'));
       connection!.output.allSent.then((_) {
+        print('connection signal');
         print('Command sent to Arduino');
       }).catchError((error) {
         print('Error sending command: $error');
@@ -78,24 +80,111 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Blue Arduino'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: _connectToBluetooth,
-              child: Text('Connect to Arduino'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _sendCommandToArduino,
-              child: Text('Send Data'),
-            ),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Colors.greenAccent.shade200, Colors.greenAccent.shade100], // Define your gradient colors
+          ),
         ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 45, 0, 30),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: const Icon(Icons.home),
+                  color: Colors.white,
+                  onPressed: () {
+                    // Navigate back to the home page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(height: 80),
+            Center(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0,60,0,0),
+                          child: Text(
+                            'Blue Arduino',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
+                    ElevatedButton(
+                      onPressed: _connectToBluetooth,
+                      child: Text('Connect to Arduino',
+                        style: TextStyle(color: Colors.white,fontSize: 18),),
+                      style: ButtonStyle(
+                        // Gradient background
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade400),
+                        // Rounded rectangle shape with border radius 5
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            // You can also provide additional border properties if needed
+                            side: BorderSide(color: Colors.green, width: 2.0), // Border side
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _sendCommandToArduino,
+                      child: Text('Send Data',
+                        style: TextStyle(color: Colors.white,fontSize: 18),),
+                      style: ButtonStyle(
+                        // Gradient background
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.greenAccent.shade400),
+                        // Rounded rectangle shape with border radius 5
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            // You can also provide additional border properties if needed
+                            side: BorderSide(color: Colors.green, width: 2.0), // Border side
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ]
+        )
       ),
       bottomNavigationBar: PreferredSize(
 

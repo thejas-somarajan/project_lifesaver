@@ -6,6 +6,8 @@ import 'package:life_saver/arduino-transfer/my_homepage.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 import 'package:life_saver/arduino-transfer/data_sender.dart';
 
+int dummy=0;
+
 
 Future<FirebaseCustomModel> loadModel() async {
     final customModel = await FirebaseModelDownloader.instance.getModel(
@@ -141,11 +143,23 @@ Future<int> stageData(Map<String, double>? healthData) async {
   print('this is the predicted ${predictedLabel}');
   interpreter.close();
 
-  int count = 0;
-
-  if(predictedLabel == 2) {
+  // int dummy=0;
+  if(predictedLabel == 1 && predictedLabel != dummy) {
+    dummy = predictedLabel;
     print('reached if');
-    DataArd().sendCommand('0');
+    DataArd().sendCommand('1');
+  }else if(predictedLabel == 2 && predictedLabel != dummy) {
+    dummy = predictedLabel;
+    print('reached if');
+    DataArd().sendCommand('2');
+  }else if(predictedLabel == 3 && predictedLabel != dummy) {
+    dummy = predictedLabel;
+    print('reached if 3');
+    DataArd().sendCommand('3');
+  }else if(predictedLabel == 4 && predictedLabel != dummy) {
+    dummy = predictedLabel;
+    print('reached if 3');
+    DataArd().sendCommand('4');
   }
 
   return predictedLabel;
