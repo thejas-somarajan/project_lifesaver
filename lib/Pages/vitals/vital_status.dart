@@ -6,25 +6,6 @@ import 'chart.dart';
 import 'dart:async';
 
 
-
-
-// void main() {
-//   runApp(vitals());
-// }
-
-// class vitals extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'vital page',
-//       theme: ThemeData(
-//         primarySwatch: Colors.green,
-//       ),
-//       home: vitalsPage(selectedIndex: 0),
-//     );
-//   }
-// }
-
 class vitalsPage extends StatefulWidget {
   final int selectedIndex;
   vitalsPage({Key? key, required this.selectedIndex}) : super(key: key);
@@ -509,11 +490,6 @@ class _vitalsPageState extends State<vitalsPage> {
             ),
           ),
         ),
-        // Third Row: Vital Containers
-        // buildVitalContainer('Heart rate', 'BPM', 'heart-attack.png'),
-        // buildVitalContainer('Temperature', '°C', 'high-temperature.png'),
-        // buildVitalContainer('Oxygen', '%', 'oxygen.png'),
-        // Add more vital containers as needed
       ],
     );
   }
@@ -567,60 +543,6 @@ class _vitalsPageState extends State<vitalsPage> {
     );
   }
 
-  // Widget buildVitalContainer(String title, String unit, String imagePath) {
-  //   return Container(
-  //     height: 95,
-  //     margin: const EdgeInsets.all(15),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(15),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.grey.withOpacity(0.5),
-  //           spreadRadius: 2,
-  //           blurRadius: 10,
-  //           offset: const Offset(0, 3),
-  //         ),
-  //       ],
-  //       color: Colors.white,
-  //     ),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(4.0),
-  //       child: Row(
-  //         children: [
-  //           const SizedBox(width: 10.0),
-  //           Image.asset(
-  //             'lib/assets/$imagePath',
-  //             width: 45.0,
-  //             height: 45.0,
-  //           ),
-  //           const SizedBox(width: 12.0),
-  //           Row(
-  //             children: [
-  //               Text(
-  //                 title,
-  //                 style: TextStyle(fontSize: 20.0),
-  //               ),
-  //               SizedBox(width: 70),
-  //               Row(
-  //                 children: [
-  //                   Text(
-  //                     'XX',
-  //                     style: TextStyle(fontSize: 25.0),
-  //                   ),
-  //                   SizedBox(width: 4),
-  //                   Text(
-  //                     unit,
-  //                     style: TextStyle(fontSize: 15.0),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   PreferredSizeWidget buildBottomNavigationBar() {
     return PreferredSize(

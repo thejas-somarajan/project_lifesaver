@@ -158,8 +158,6 @@ class _SigninPageState extends State<SigninPage> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
                               setState(() => loading = true);
-                              // _mailText.clear();
-                              // _passText.clear();
                               // Calling the signIn method from the AuthService class
                               UserCredential? userCredential = await auth.signIn(_email, _password, context);
                               // Checking if sign-in was successful

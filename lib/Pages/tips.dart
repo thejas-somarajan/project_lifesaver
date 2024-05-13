@@ -59,12 +59,6 @@ class _FeatureState extends State<Feature> {
     }
   }
 
-  // _onButtonPressed(keys) {
-  //   if(keys == 'like') {
-  //
-  //   }
-  // }
-
   Future<void> _loadLastGeneratedDate() async {
     String? storedDate = await storage.read(key: 'lastGeneratedDate');
     if (storedDate != null) {

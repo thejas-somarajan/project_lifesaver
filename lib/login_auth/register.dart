@@ -194,9 +194,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             setState(() => loading = true);
-                            // _mailText.clear();
-                            // _passText.clear();
-                            // _passcText.clear();
                             // Calling the createUser method from the AuthService class
                             UserCredential? userCredential = await auth.createUser(_emailReg, _passwordReg, context);
 

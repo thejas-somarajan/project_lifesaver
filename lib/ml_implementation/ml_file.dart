@@ -1,10 +1,7 @@
 
 import 'package:firebase_ml_model_downloader/firebase_ml_model_downloader.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:life_saver/arduino-transfer/data_sender.dart';
-import 'package:life_saver/arduino-transfer/my_homepage.dart';
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
-import 'package:life_saver/arduino-transfer/data_sender.dart';
 
 int dummy=0;
 
@@ -22,62 +19,6 @@ Future<FirebaseCustomModel> loadModel() async {
 }
 
 
-// Future<void> processData(FirebaseCustomModel model, List<double> dataRow) async {
-//   // Assuming your model expects a single input tensor
-//   final inputTensor = Tensor.fromList(dataRow);
-//
-//   // Create a FirebaseModelInterpreter instance
-//   final interpreter = await tfl.Interpreter.fromAsset(assetName);
-//   // Prepare interpreter options (optional)
-//   final interpreterOptions = FirebaseModelInterpreterOptions(threads: 2);
-//
-//   // Run inference on the input data
-//   final List<Object> outputData = List(model.outputDataType.length);
-//   await interpreter.run(inputTensor, outputData, options: interpreterOptions);
-//
-//   // Process and print the output data based on your model's output type
-//   if (model.outputDataType == FirebaseModelDataType.FLOAT32) {
-//     final outputList = outputData.cast<double>();
-//     print("Model output: ${outputList.join(', ')}");
-//   } else {
-//     // Handle other output data types (e.g., int32, string)
-//     print("Unsupported output data type: ${model.outputDataType}");
-//   }
-// }
-
-
-// Future<int> processData(List<double> row) async {
-//
-//   print('Reached here');
-//   // Create a FirebaseModelInterpreter instance
-//   final interpreter = await tfl.Interpreter.fromAsset('lib/assets/model_anonymoos.tflite');
-//
-//   // List<double> input = [[2.37,115.06,36.34]];
-//
-//   List<double> input = [row[0], row[1], row[2]];
-//
-//   print(input);
-//
-//
-//   // input[0] = row[4];
-//   // input[1] = row[0];
-//   // input[2] = row[2];
-//
-//   var output = List.filled(1, 1).reshape([1,1]);
-//
-//   interpreter.run(input, output);
-//
-//
-//   int label = (output[0][0] > 0.5) ? 1 : 0;
-//
-//
-//   print(output);
-//   print(label);
-//
-//   interpreter.close();
-//
-//   return label;
-// }
 
 Future<int> processData(Map<String, double>? healthData) async {
 
@@ -85,16 +26,12 @@ Future<int> processData(Map<String, double>? healthData) async {
   // Create a FirebaseModelInterpreter instance
   final interpreter = await tfl.Interpreter.fromAsset('lib/assets/model_anonymoos.tflite');
 
-  // List<double> input = [[2.37,115.06,36.34]];
 
   List<double?> input = [healthData?['eda'], healthData?['heart_rate'], healthData?['temp']];
 
   print(input);
 
 
-  // input[0] = row[4];
-  // input[1] = row[0];
-  // input[2] = row[2];
 
   var output = List.filled(1, 1).reshape([1,1]);
 
@@ -127,23 +64,15 @@ Future<int> stageData(Map<String, double>? healthData) async {
   interpreter.run(input, output);
 
   print(output);
-
-  // List predictedLabels = output.map((prediction) {
-  //   return prediction.reduce((double a, double b) => a < b ? a : b).round();
-  // }).toList();
-
   // Usage:
   List<double> predictions = convertToDoubleList(output);
 
-  // List<double> predictions = List<double>.from(output);
-  // List<double> predictions = [3.9709544598280563e-19, 1.6820277437545883e-7, 0.00040524889482185245, 0.02080192044377327, 0.9787926077842712];
   print(predictions);
 
   int predictedLabel = argmax(predictions);
   print('this is the predicted ${predictedLabel}');
   interpreter.close();
 
-  // int dummy=0;
   if(predictedLabel == 1 && predictedLabel != dummy) {
     dummy = predictedLabel;
     print('reached if');

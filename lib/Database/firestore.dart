@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:life_saver/shared/stream_function.dart';
 import 'package:life_saver/shared/user_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -57,16 +56,6 @@ class ProfileService {
       return null;
     }
   }
-
-  // Future<void> getDataset(int i) async {
-  //   try {
-  //     String index = i.toString();
-  //     final DocumentSnapshot snapshot = await simulate.doc(index).get();
-  //     print(snapshot.data());
-  //   } catch (e) {
-  //     print('Error getting dataset: $e');
-  //   }
-  // }
 
 }
 

@@ -3,15 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:life_saver/Database/firestore.dart';
 import 'package:life_saver/Pages/home.dart';
 import 'package:life_saver/login_auth/firebase_auth/auth.dart';
-import 'package:life_saver/ml_implementation/ml_file.dart';
 import 'package:life_saver/shared/navigator.dart';
 import 'package:life_saver/shared/profile_editor.dart';
-import 'package:life_saver/shared/stream_function.dart';
 import 'package:life_saver/shared/user_data.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import 'package:life_saver/sms/sms_module.dart';
 
 class Profile extends StatefulWidget {
 
@@ -174,8 +170,6 @@ class _ProfileState extends State<Profile> {
                         } else {
                           // Moved buildProfileWidget call inside StreamBuilder
                           Map<String, dynamic> userData = snapshot.data!.data() as Map<String, dynamic>;
-
-                          // Sms_Sender().profileSnatcher(userData);
 
                           return buildProfileWidget(userData);
                         }

@@ -73,10 +73,6 @@ class _MyAppState extends State<Critical_interface> {
     bloodController = StreamController<Map<String, double>>();
     edaController = StreamController<Map<String, double>>();
 
-    // Sms_Sender().profileSnatcher();
-
-
-    // stageController = StreamController<int>.broadcast();
 
     timer1 = Timer.periodic(Duration(seconds: 10), (Timer t) async {
       // Simulate updating heart rate data every 2 seconds
@@ -84,7 +80,6 @@ class _MyAppState extends State<Critical_interface> {
       print('N: $n');
       Map<String, double>? result = await simulator.getDataset();
       updateRate(result);
-      // updateRate(dataset[currentIndex % dataset.length + 1]!);
       currentIndex++;
     });
 
@@ -107,15 +102,6 @@ class _MyAppState extends State<Critical_interface> {
 
     stageController.add(counter);
 
-    // if(counter >= 2 && light == 0){
-    //   bool? result = await _showAlertDialog();
-    //
-    //   if(result == false && result != null ) {
-    //     Sms_Sender().sendLocationViaSMS(newRate,counter);
-    //
-    //   }
-    //   light = 1;
-    // }
   }
 
   void updateAlert(List<double> newRate) async {

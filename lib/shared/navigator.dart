@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:life_saver/Pages/profile.dart';
 import 'package:life_saver/Pages/tips.dart';
 import 'package:life_saver/Pages/vitals/vital_status.dart';
-import 'package:life_saver/arduino-transfer/my_app.dart';
 import 'package:life_saver/arduino-transfer/my_homepage.dart';
 
 class Navi {

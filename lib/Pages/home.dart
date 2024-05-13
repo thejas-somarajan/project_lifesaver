@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:life_saver/Pages/critical.dart';
-import 'package:life_saver/Pages/profile.dart';
-import 'package:life_saver/Pages/tips.dart';
 import 'package:life_saver/shared/navigator.dart';
-import 'vitals/vital_status.dart';
 import 'dart:async';
 import 'package:life_saver/Database/firestore.dart';
 
@@ -29,8 +26,6 @@ class _HomePageState extends State<HomePage> {
     6: [1.28,	75.83,	36.21, 95.2],
     7: [1.29,	75.55,	36.01, 93.8],
     8: [1.35,	75.57,	36.25, 96.7],
-    // 9: [5.36, 133.53,	36.04, 85.67],
-    // 10:[9.39, 121.74,	36.82, 87.69],
   };
 
   late StreamController<Map<String, double>?> heartRateController;
@@ -42,12 +37,9 @@ class _HomePageState extends State<HomePage> {
   late Timer timer;
   int currentIndex = 1;
   int i = 1;
-  // int _selectedIndex = 3;
 
   static int n = 1;
   int clicked = 0;
-
-  ProfileService _profileService = ProfileService();
 
   Simulator simulator = Simulator();
 
@@ -80,13 +72,7 @@ class _HomePageState extends State<HomePage> {
         print('N: $n');
         Map<String, double>? result = await simulator.getNormal();
         updateRate(result);
-
-        // updateRate(simulator.getNormal());
       }
-      // updateRate(result);
-      // updateRate(normal[currentIndex % normal.length + 1]!);
-
-      // _profileService.getDataset(i++);
 
       currentIndex++;
     });
@@ -112,37 +98,10 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _dateTimeController = StreamController<DateTime>.broadcast();
-  //   _startClock();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _dateTimeController.close();
-  //   super.dispose();
-  // }
-
 
   void critical_traverse(Map<String, double>? newRate) async{
-    // final Stream<String> traverse = traverseController.stream;
     int data = await processData(newRate);
     print(data);
-
-    // Subscribe to the stream
-    // final StreamSubscription<String> subscription =
-    // traverse.listen((int data) {
-    //     if(data == 0)
-    //       {
-    //         Navigator.push(
-    //           context,
-    //           MaterialPageRoute(
-    //               builder: (context) => Critical_interface()),
-    //         );
-    //       }
-    // });
 
     if(data == 0)
           {
@@ -168,11 +127,7 @@ class _HomePageState extends State<HomePage> {
       _dateTimeController.add(now);
     });
   }
-  //
-  // String getCurrentTime() {
-  //   String formattedTime = "${now.hour}:${now.minute}";
-  //   return formattedTime;
-  // }
+
 
   String AMPM(String formattedTime) {
     if (now.hour < 12) {
@@ -317,11 +272,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => Critical_interface()),
-                    // );
                     clicked = 1;
                   },
                   icon: Icon(Icons.add), // Wrap Icons.add with Icon widget
@@ -583,10 +533,6 @@ class _HomePageState extends State<HomePage> {
           label: 'Watch',
         ),
       ],
-      //  currentIndex: _selectedIndex,
-      // selectedItemColor:
-      //     Colors.green[500], // Set the color for the selected item
-      // // unselectedItemColor: Colors.grey,
       onTap: _onItemTapped,
     ),
     ),

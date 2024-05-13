@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:life_saver/arduino-transfer/data_sender.dart';
-import 'package:life_saver/ml_implementation/ml_file.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

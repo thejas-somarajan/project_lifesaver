@@ -1,6 +1,5 @@
 // Importing necessary Flutter packages and Firebase authentication
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:life_saver/Pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:life_saver/Pages/login.dart';
 

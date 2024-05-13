@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:life_saver/Database/firestore.dart';
 import 'package:life_saver/Pages/profile.dart';
-import 'package:life_saver/shared/user_data.dart';
 
 
 class ProfileUpdate extends StatefulWidget {
@@ -17,10 +15,6 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
   final GlobalKey<FormState> _profileformKey = GlobalKey<FormState>();
 
 
-  // void Userid_call() async {
-  //   userid = await UserData().getCurrentUserId();
-  //   ProfileService().updateUserData(userid, 'thejas', '12345', 'boss');
-  // }
 
 
   @override
