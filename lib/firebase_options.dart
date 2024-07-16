@@ -40,48 +40,6 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAWqVD-hv0C1ZXy9tX5E7iyNFZHExX8Z0o',
-    appId: '1:798337976305:web:03a90011cdf1e95fc4a650',
-    messagingSenderId: '798337976305',
-    projectId: 'lifesaver-5000',
-    authDomain: 'lifesaver-5000.firebaseapp.com',
-    storageBucket: 'lifesaver-5000.appspot.com',
-  );
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDuEEabKIb9euyAy-FTCx42DV1BfemYah8',
-    appId: '1:798337976305:android:6220f93567359403c4a650',
-    messagingSenderId: '798337976305',
-    projectId: 'lifesaver-5000',
-    storageBucket: 'lifesaver-5000.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBWiKn_aso1iTX_h8qCW3Ym4bTOunNha60',
-    appId: '1:798337976305:ios:134c50742e973384c4a650',
-    messagingSenderId: '798337976305',
-    projectId: 'lifesaver-5000',
-    storageBucket: 'lifesaver-5000.appspot.com',
-    iosBundleId: 'com.example.lifeSaver',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBWiKn_aso1iTX_h8qCW3Ym4bTOunNha60',
-    appId: '1:798337976305:ios:134c50742e973384c4a650',
-    messagingSenderId: '798337976305',
-    projectId: 'lifesaver-5000',
-    storageBucket: 'lifesaver-5000.appspot.com',
-    iosBundleId: 'com.example.lifeSaver',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyAWqVD-hv0C1ZXy9tX5E7iyNFZHExX8Z0o',
-    appId: '1:798337976305:web:b837f2bbdd7a3e12c4a650',
-    messagingSenderId: '798337976305',
-    projectId: 'lifesaver-5000',
-    authDomain: 'lifesaver-5000.firebaseapp.com',
-    storageBucket: 'lifesaver-5000.appspot.com',
-  );
+ 
 
 }
